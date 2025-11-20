@@ -1528,13 +1528,40 @@ section > .container {
 }
 
 /* Responsive Design */
+
+/* Tablets and small desktops */
+@media (max-width: 1200px) {
+    .hero-title {
+        font-size: 4rem;
+    }
+
+    .services-grid,
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+}
+
 @media (max-width: 1024px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+
     .hero-title {
         font-size: 3.5rem;
+        line-height: 1.15;
     }
 
     .section-title {
         font-size: 2.5rem;
+        line-height: 1.2;
+    }
+
+    .hero-stats {
+        gap: 2rem;
+    }
+
+    .stat-item {
+        padding: 1rem 1.5rem;
     }
 
     .contact-wrapper {
@@ -1549,9 +1576,15 @@ section > .container {
     .footer-content {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .services-grid,
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
 }
 
 @media (max-width: 768px) {
+    /* Navigation */
     .nav-menu,
     .cta-button {
         display: none;
@@ -1561,39 +1594,138 @@ section > .container {
         display: flex;
     }
 
+    .navbar {
+        padding: 1rem 0;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding-top: 80px;
+        min-height: auto;
+        padding-bottom: 4rem;
+    }
+
     .hero-title {
         font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 1.25rem;
     }
 
     .hero-description {
         font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .hero-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.9rem;
+        margin-bottom: 1.5rem;
     }
 
     .hero-buttons {
         flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
     }
 
     .hero-stats {
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+    }
+
+    .stat-item {
+        width: 100%;
+        padding: 1.25rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    /* Sections */
+    section {
+        padding: 4rem 0;
     }
 
     .section-title {
         font-size: 2rem;
+        line-height: 1.25;
     }
 
+    .section-description {
+        font-size: 1rem;
+    }
+
+    .section-badge {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Grids */
     .services-grid,
     .projects-grid,
     .team-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
+    /* Cards */
+    .service-card,
+    .project-card,
+    .team-card {
+        padding: 2rem;
+    }
+
+    .service-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .service-title,
+    .project-title,
+    .team-name {
+        font-size: 1.25rem;
+    }
+
+    /* Contact */
+    .contact-form-wrapper {
+        padding: 2rem 1.5rem;
+    }
+
+    .contact-details {
+        gap: 1.5rem;
+    }
+
+    .contact-icon {
+        font-size: 1.75rem;
+    }
+
+    /* Footer */
     .footer-content {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
-    .contact-form-wrapper {
-        padding: 2rem;
+    .footer {
+        padding: 3rem 0 1.5rem;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+        bottom: 2rem;
+    }
+
+    .mouse {
+        width: 24px;
+        height: 40px;
     }
     
     /* Disable custom cursor on mobile */
@@ -1606,11 +1738,26 @@ section > .container {
         display: none;
     }
     
+    /* Touch-friendly interactions */
+    .btn,
+    .nav-link,
+    .service-card,
+    .project-card,
+    .team-card {
+        -webkit-tap-highlight-color: rgba(99, 102, 241, 0.1);
+    }
+    
     /* Simplify card animations on mobile */
+    .service-card:active,
+    .project-card:active,
+    .team-card:active {
+        transform: scale(0.98);
+    }
+
     .service-card:hover,
     .project-card:hover,
     .team-card:hover {
-        transform: translateY(-10px) !important;
+        transform: translateY(-8px) !important;
     }
 }
 
@@ -1619,19 +1766,238 @@ section > .container {
         padding: 0 1rem;
     }
 
+    /* Hero */
+    .hero {
+        padding-top: 70px;
+    }
+
     .hero-title {
+        font-size: 1.875rem;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+
+    .hero-description {
+        font-size: 0.9375rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.875rem;
+    }
+
+    /* Sections */
+    section {
+        padding: 3rem 0;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+    }
+
+    .section-description {
+        font-size: 0.9375rem;
+    }
+
+    .section-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.9rem;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9375rem;
+    }
+
+    .hero-buttons .btn {
+        padding: 0.875rem;
+    }
+
+    /* Cards */
+    .service-card,
+    .project-card,
+    .team-card {
+        padding: 1.5rem;
+    }
+
+    .service-icon {
+        font-size: 2.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .service-title,
+    .project-title {
+        font-size: 1.125rem;
+    }
+
+    .service-description,
+    .project-description {
+        font-size: 0.9375rem;
+    }
+
+    /* Stats */
+    .stat-number {
+        font-size: 2.25rem;
+    }
+
+    .stat-label {
+        font-size: 0.8125rem;
+    }
+
+    .stat-item {
+        padding: 1rem 1.25rem;
+    }
+
+    /* Team */
+    .team-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 1.75rem;
+    }
+
+    .team-name {
+        font-size: 1.125rem;
+    }
+
+    .team-role {
+        font-size: 0.875rem;
+    }
+
+    .team-bio {
+        font-size: 0.8125rem;
+    }
+
+    /* Contact */
+    .contact-form-wrapper {
+        padding: 1.5rem;
+    }
+
+    .form-group label {
+        font-size: 0.9375rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 0.9375rem;
+        padding: 0.75rem;
+    }
+
+    .contact-icon {
+        font-size: 1.5rem;
+    }
+
+    .contact-label {
+        font-size: 0.8125rem;
+    }
+
+    .contact-value {
+        font-size: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 2.5rem 0 1.5rem;
+    }
+
+    .logo-text {
+        font-size: 1.25rem;
+    }
+
+    .logo-icon {
+        font-size: 1.5rem;
+    }
+
+    .footer-description {
+        font-size: 0.875rem;
+    }
+
+    .footer-title {
+        font-size: 0.9375rem;
+    }
+
+    .footer-links,
+    .social-links {
+        font-size: 0.875rem;
+    }
+
+    /* Project tags */
+    .tag {
+        font-size: 0.6875rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    /* Navbar */
+    .logo-text {
+        font-size: 1.125rem;
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero {
+        min-height: auto;
+        padding: 5rem 0 3rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-description {
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-stats {
+        flex-direction: row;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .stat-item {
+        padding: 0.75rem 1.25rem;
+        min-width: 120px;
+    }
+
+    .stat-number {
         font-size: 2rem;
     }
 
-    .btn {
-        padding: 0.75rem 1.5rem;
-        font-size: 0.875rem;
+    .scroll-indicator {
+        display: none;
+    }
+
+    section {
+        padding: 3rem 0;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: 1.625rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
     }
 
     .service-card,
     .project-card,
     .team-card {
-        padding: 1.5rem;
+        padding: 1.25rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
     }
 }
 
