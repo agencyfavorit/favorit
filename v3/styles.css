@@ -154,7 +154,21 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 .m-close { position: absolute; top: 22px; right: var(--gutter); font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
 
 /* ── Hero ──────────────────────────────────────────────── */
-.hero { min-height: 100svh; display: flex; overflow: hidden; }
+.hero { min-height: 100svh; display: flex; overflow: hidden; position: relative; }
+
+/* signature "pole position" orbit — echo of the logo (ring + brass marker) */
+.hero-orbit { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.orbit-svg {
+  position: absolute; top: 50%; right: -7%; transform: translateY(-50%);
+  width: min(78vh, 720px); height: min(78vh, 720px); opacity: 0.9;
+}
+.orbit-svg .ring { stroke: var(--line); stroke-width: 1; }
+.orbit-svg .ring.track { stroke: var(--brass-line); }
+.orbit-svg .core { fill: none; stroke: var(--line); stroke-width: 1; }
+.orbit-svg .trail { stroke: var(--brass); stroke-width: 1.6; stroke-linecap: round; opacity: 0.45; }
+.orbit-svg .lead { fill: var(--brass); filter: drop-shadow(0 0 7px rgba(200,168,107,0.65)); }
+.orbit-svg .orbit { transform-box: view-box; transform-origin: 200px 200px; animation: orbitSpin 18s linear infinite; }
+@keyframes orbitSpin { to { transform: rotate(360deg); } }
 
 .hero-inner {
   display: flex; flex-direction: column; justify-content: flex-end;
@@ -410,6 +424,8 @@ body.legal-page { animation: pageIn 0.55s var(--ease); }
   .hstat .l { font-size: 0.62rem; }
   /* чуть теснее вертикальный ритм секций на телефоне */
   section { padding-block: clamp(60px, 9vh, 96px); }
+  /* орбита: крупно по центру сверху — заполняет зону над заголовком */
+  .orbit-svg { top: 2%; right: 50%; transform: translateX(50%); width: 128vw; height: 128vw; opacity: 0.8; }
 }
 @media (max-width: 560px) {
   .steps, .team-grid { grid-template-columns: 1fr; }
