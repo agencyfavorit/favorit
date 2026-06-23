@@ -85,6 +85,37 @@
     });
   }
 
+  /* ── Team identicons — symmetric geometric pattern from name ── */
+  const hashStr = (s) => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+  document.querySelectorAll('.member-ava').forEach((ava) => {
+    const card = ava.closest('.member');
+    const name = (card && card.querySelector('.member-name') ? card.querySelector('.member-name').textContent : ava.textContent).trim();
+    let h = hashStr(name);
+    const NS = 'http://www.w3.org/2000/svg';
+    const grid = 5, cols = 3, cell = 20, pad = 12, size = grid * cell + pad * 2;
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+    svg.setAttribute('class', 'identicon');
+    for (let x = 0; x < cols; x++) {
+      for (let y = 0; y < grid; y++) {
+        h = Math.imul(h ^ (x * 31 + y * 7 + 13), 16777619) >>> 0;
+        if ((h & 7) <= 3) continue;
+        const op = (0.4 + ((h >>> 3) & 7) / 7 * 0.6).toFixed(2);
+        const put = (cx) => {
+          const r = document.createElementNS(NS, 'rect');
+          r.setAttribute('x', pad + cx * cell); r.setAttribute('y', pad + y * cell);
+          r.setAttribute('width', cell); r.setAttribute('height', cell);
+          r.setAttribute('fill', '#c8a86b'); r.setAttribute('opacity', op);
+          svg.appendChild(r);
+        };
+        put(x);
+        if (grid - 1 - x !== x) put(grid - 1 - x);
+      }
+    }
+    ava.textContent = '';
+    ava.appendChild(svg);
+  });
+
   /* ── Reduced motion: show everything, skip animation ───── */
   if (reduced || !hasGSAP) {
     document.querySelectorAll('.reveal').forEach((el) => { el.style.opacity = 1; el.style.transform = 'none'; el.style.clipPath = 'none'; });
