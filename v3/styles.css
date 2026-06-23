@@ -164,22 +164,35 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 }
 .orbit-svg .ring { stroke: var(--line); stroke-width: 1; }
 .orbit-svg .ring.track { stroke: var(--brass-line); }
-.orbit-svg .ring.frame { stroke: rgba(200,168,107,0.18); }
-.orbit-svg .hub { fill: var(--brass); filter: drop-shadow(0 0 5px rgba(200,168,107,0.6)); }
-.orbit-svg .trail { stroke: var(--brass); stroke-width: 1.6; stroke-linecap: round; opacity: 0.45; }
-.orbit-svg .lead { fill: var(--brass); filter: drop-shadow(0 0 7px rgba(200,168,107,0.65)); }
-.orbit-svg .orbit { transform-box: view-box; transform-origin: 200px 200px; animation: orbitSpin 18s linear infinite; }
-@keyframes orbitSpin { to { transform: rotate(360deg); } }
 
-/* guilloché rosette — banknote-grade hairline weave (path built in JS) */
-.orbit-svg .g-line {
-  fill: none; stroke-width: 0.7; stroke-linejoin: round;
+/* FVRT signature — drawn by a brass pen: draw → hold → erase → loop (path in JS) */
+.orbit-svg .sign {
+  fill: none; stroke: var(--brass); stroke-width: 3;
+  stroke-linecap: round; stroke-linejoin: round;
   stroke-dasharray: 1; stroke-dashoffset: 1;
-  animation: guillocheDraw 2.8s var(--ease) 0.3s forwards;
+  animation: signDraw 8s linear 0.5s infinite;
 }
-.orbit-svg .g-bone { stroke: rgba(236,234,227,0.11); }
-.orbit-svg .g-brass { stroke: rgba(200,168,107,0.26); animation-delay: 0.55s; }
-@keyframes guillocheDraw { to { stroke-dashoffset: 0; } }
+.orbit-svg .nib {
+  fill: var(--brass); opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(200,168,107,0.75));
+  animation: nibMove 8s linear 0.5s infinite;
+}
+@keyframes signDraw {
+  0%, 4% { stroke-dashoffset: 1; }
+  42%    { stroke-dashoffset: 0; }
+  72%    { stroke-dashoffset: 0; }
+  92%, 100% { stroke-dashoffset: -1; }
+}
+@keyframes nibMove {
+  0%, 4% { offset-distance: 0%; opacity: 0; }
+  8%     { opacity: 1; }
+  42%    { offset-distance: 100%; opacity: 1; }
+  47%, 100% { offset-distance: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-svg .sign { animation: none; stroke-dashoffset: 0; }
+  .orbit-svg .nib { display: none; }
+}
 
 .hero-inner {
   display: flex; flex-direction: column; justify-content: flex-end;
@@ -435,8 +448,8 @@ body.legal-page { animation: pageIn 0.55s var(--ease); }
   .hstat .l { font-size: 0.62rem; }
   /* чуть теснее вертикальный ритм секций на телефоне */
   section { padding-block: clamp(60px, 9vh, 96px); }
-  /* орбита: крупно по центру сверху — заполняет зону над заголовком */
-  .orbit-svg { top: 2%; right: 50%; transform: translateX(50%); width: 128vw; height: 128vw; opacity: 0.8; }
+  /* медальон-подпись: компактно в верхней зоне, НАД заголовком (без наложения) */
+  .orbit-svg { top: 3%; right: 50%; transform: translateX(50%); width: 82vw; height: 82vw; opacity: 0.92; }
 }
 @media (max-width: 560px) {
   .steps, .team-grid { grid-template-columns: 1fr; }

@@ -85,30 +85,16 @@
     });
   }
 
-  /* ── Hero guilloché — generated rosette (banknote-grade detail) ── */
-  document.querySelectorAll('.orbit-svg .guilloche').forEach((g) => {
-    const C = 200, TWO_PI = Math.PI * 2;
-    const rose = (petals, baseR, amp, cycles, precess, cls) => {
-      const steps = 132;
-      let d = '';
-      for (let c = 0; c < cycles; c++) {
-        const ph = c * precess;
-        for (let i = 0; i <= steps; i++) {
-          const t = (i / steps) * TWO_PI;
-          const rr = baseR + amp * Math.cos(petals * t);
-          const x = C + rr * Math.cos(t + ph);
-          const y = C + rr * Math.sin(t + ph);
-          d += (c === 0 && i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
-        }
-      }
-      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      p.setAttribute('d', d);
-      p.setAttribute('pathLength', '1');
-      p.setAttribute('class', 'g-line ' + cls);
-      g.appendChild(p);
-    };
-    rose(7, 108, 44, 28, TWO_PI / 28, 'g-bone');
-    rose(7, 108, 44, 28, TWO_PI / 28 + 0.05, 'g-brass');
+  /* ── Hero: FVRT signature drawn by a brass pen (one source path) ── */
+  const signPath = 'M133,168L99,168L99,200L127,200L99,200L99,232'   // F
+    + 'M148,168L168,232L188,168'                                    // V
+    + 'M208,232L208,168C238,168 238,201 208,201L238,232'            // R
+    + 'M256,170L304,170M280,170L280,232';                           // T
+  document.querySelectorAll('.orbit-svg').forEach((svg) => {
+    const sign = svg.querySelector('.sign');
+    const nib = svg.querySelector('.nib');
+    if (sign) { sign.setAttribute('d', signPath); sign.setAttribute('pathLength', '1'); }
+    if (nib) { nib.style.offsetPath = `path('${signPath}')`; nib.style.offsetRotate = '0deg'; }
   });
 
   /* ── Reduced motion: show everything, skip animation ───── */
