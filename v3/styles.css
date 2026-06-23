@@ -156,43 +156,31 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 /* ── Hero ──────────────────────────────────────────────── */
 .hero { min-height: 100svh; display: flex; overflow: hidden; position: relative; }
 
-/* signature "pole position" orbit — echo of the logo (ring + brass marker) */
-.hero-orbit { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.orbit-svg {
-  position: absolute; top: 50%; right: -7%; transform: translateY(-50%);
-  width: min(78vh, 720px); height: min(78vh, 720px); opacity: 0.9;
+/* hero ambient — mesh gradient + dot-grid + film grain (Linear/Stripe-grade, no gimmicks) */
+.hero-fx { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.hero-fx .mesh {
+  position: absolute; inset: -12%;
+  background:
+    radial-gradient(42% 55% at 82% 20%, rgba(200,168,107,0.20), transparent 70%),
+    radial-gradient(46% 56% at 96% 72%, rgba(200,168,107,0.10), transparent 72%),
+    radial-gradient(52% 60% at 48% 110%, rgba(236,234,227,0.05), transparent 70%);
+  filter: blur(12px);
+  animation: meshDrift 20s ease-in-out infinite alternate;
 }
-.orbit-svg .ring { stroke: var(--line); stroke-width: 1; }
-.orbit-svg .ring.track { stroke: var(--brass-line); }
-
-/* FVRT signature — drawn by a brass pen: draw → hold → erase → loop (path in JS) */
-.orbit-svg .sign {
-  fill: none; stroke: var(--brass); stroke-width: 3;
-  stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 1; stroke-dashoffset: 1;
-  animation: signDraw 8s linear 0.5s infinite;
+@keyframes meshDrift { to { transform: translate3d(-2.5%, 1.5%, 0) scale(1.06); } }
+.hero-fx .dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle at center, rgba(236,234,227,0.11) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(118% 96% at 76% 34%, #000 16%, transparent 70%);
+          mask-image: radial-gradient(118% 96% at 76% 34%, #000 16%, transparent 70%);
 }
-.orbit-svg .nib {
-  fill: var(--brass); opacity: 0;
-  filter: drop-shadow(0 0 6px rgba(200,168,107,0.75));
-  animation: nibMove 8s linear 0.5s infinite;
+.hero-fx .grain {
+  position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
 }
-@keyframes signDraw {
-  0%, 4% { stroke-dashoffset: 1; }
-  42%    { stroke-dashoffset: 0; }
-  72%    { stroke-dashoffset: 0; }
-  92%, 100% { stroke-dashoffset: -1; }
-}
-@keyframes nibMove {
-  0%, 4% { offset-distance: 0%; opacity: 0; }
-  8%     { opacity: 1; }
-  42%    { offset-distance: 100%; opacity: 1; }
-  47%, 100% { offset-distance: 100%; opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .orbit-svg .sign { animation: none; stroke-dashoffset: 0; }
-  .orbit-svg .nib { display: none; }
-}
+@media (prefers-reduced-motion: reduce) { .hero-fx .mesh { animation: none; } }
 
 .hero-inner {
   display: flex; flex-direction: column; justify-content: flex-end;
@@ -448,8 +436,8 @@ body.legal-page { animation: pageIn 0.55s var(--ease); }
   .hstat .l { font-size: 0.62rem; }
   /* чуть теснее вертикальный ритм секций на телефоне */
   section { padding-block: clamp(60px, 9vh, 96px); }
-  /* медальон-подпись: компактно в верхней зоне, НАД заголовком (без наложения) */
-  .orbit-svg { top: 3%; right: 50%; transform: translateX(50%); width: 82vw; height: 82vw; opacity: 0.92; }
+  /* dot-grid: маску отцентровать для узких экранов */
+  .hero-fx .dots { -webkit-mask-image: radial-gradient(120% 70% at 50% 30%, #000 14%, transparent 72%); mask-image: radial-gradient(120% 70% at 50% 30%, #000 14%, transparent 72%); }
 }
 @media (max-width: 560px) {
   .steps, .team-grid { grid-template-columns: 1fr; }

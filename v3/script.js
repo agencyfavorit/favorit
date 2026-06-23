@@ -85,18 +85,6 @@
     });
   }
 
-  /* ── Hero: FVRT signature drawn by a brass pen (one source path) ── */
-  const signPath = 'M133,168L99,168L99,200L127,200L99,200L99,232'   // F
-    + 'M148,168L168,232L188,168'                                    // V
-    + 'M208,232L208,168C238,168 238,201 208,201L238,232'            // R
-    + 'M256,170L304,170M280,170L280,232';                           // T
-  document.querySelectorAll('.orbit-svg').forEach((svg) => {
-    const sign = svg.querySelector('.sign');
-    const nib = svg.querySelector('.nib');
-    if (sign) { sign.setAttribute('d', signPath); sign.setAttribute('pathLength', '1'); }
-    if (nib) { nib.style.offsetPath = `path('${signPath}')`; nib.style.offsetRotate = '0deg'; }
-  });
-
   /* ── Reduced motion: show everything, skip animation ───── */
   if (reduced || !hasGSAP) {
     document.querySelectorAll('.reveal').forEach((el) => { el.style.opacity = 1; el.style.transform = 'none'; el.style.clipPath = 'none'; });
