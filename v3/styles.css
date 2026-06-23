@@ -154,7 +154,7 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 .m-close { position: absolute; top: 22px; right: var(--gutter); font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
 
 /* ── Hero ──────────────────────────────────────────────── */
-.hero { min-height: 100svh; display: flex; overflow: hidden; position: relative; }
+.hero { min-height: 100svh; display: flex; overflow: hidden; position: relative; padding-block: 0; }
 
 /* hero ambient — mesh gradient + dot-grid + film grain (Linear/Stripe-grade, no gimmicks) */
 .hero-fx { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
@@ -211,7 +211,7 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 .hero-lede em { font-style: normal; color: var(--ink); }
 .hero-stats { display: flex; gap: clamp(20px, 4vw, 52px); justify-content: flex-end; }
 .hstat { text-align: right; }
-.hstat .n { font-family: var(--display); font-weight: 800; font-size: clamp(1.7rem, 2.6vw, 2.5rem); letter-spacing: -0.04em; line-height: 1; }
+.hstat .n { font-family: var(--display); font-weight: 800; font-size: clamp(2.1rem, 2.9vw, 3rem); letter-spacing: -0.04em; line-height: 1; }
 .hstat .n em { font-style: normal; color: var(--brass); }
 .hstat .l { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
 
@@ -425,10 +425,12 @@ body.legal-page { animation: pageIn 0.55s var(--ease); }
 @media (max-width: 680px) {
   /* hero: высота по контенту, контент сверху — убираем пустоту над заголовком */
   .hero, .hero-inner { min-height: auto; }
-  .hero-inner { justify-content: flex-start; padding-top: 124px; padding-bottom: clamp(56px, 10vh, 84px); }
+  .hero-inner { justify-content: flex-start; padding-top: 120px; padding-bottom: clamp(40px, 6vh, 60px); }
   .hero-foot { margin-top: 30px; }
-  .hero-stats { gap: 20px; }
-  .hstat .l { font-size: 0.62rem; }
+  /* статы — крупный «бенд» на всю ширину с разделителем */
+  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .hstat .n { font-size: clamp(2.6rem, 9vw, 3.4rem); }
+  .hstat .l { font-size: 0.6rem; margin-top: 8px; }
   /* чуть теснее вертикальный ритм секций на телефоне */
   section { padding-block: clamp(60px, 9vh, 96px); }
   /* dot-grid: маску отцентровать для узких экранов */
