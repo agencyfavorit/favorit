@@ -237,10 +237,9 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 .svc {
   display: grid; grid-template-columns: 1fr 1.5fr auto; gap: clamp(20px, 4vw, 64px); align-items: start;
   padding-block: clamp(28px, 3.6vw, 48px); border-bottom: 1px solid var(--line);
-  position: relative; transition: padding-left 0.45s var(--ease);
+  position: relative;
 }
-.svc:hover { padding-left: 16px; }
-.svc-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.5rem, 2.7vw, 2.4rem); letter-spacing: -0.03em; line-height: 1.05; }
+.svc-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.5rem, 2.7vw, 2.4rem); letter-spacing: -0.03em; line-height: 1.05; transition: color 0.25s var(--ease); }
 .svc-desc { font-size: 0.96rem; line-height: 1.6; color: var(--muted); max-width: 46ch; padding-top: 6px; }
 .svc-tags { display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; padding-top: 8px; }
 .tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.02em; color: var(--ink-soft); border: 1px solid var(--line); border-radius: 100px; padding: 4px 11px; white-space: nowrap; }
@@ -275,13 +274,9 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 .work {
   display: grid; grid-template-columns: 64px 1fr auto; gap: clamp(16px, 3vw, 40px); align-items: center;
   padding-block: clamp(26px, 3.4vw, 44px); border-bottom: 1px solid var(--line);
-  position: relative; transition: padding-left 0.4s var(--ease);
+  position: relative;
 }
-.work::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--brass-dim), transparent 40%); opacity: 0; transition: opacity 0.4s; }
-.work:hover { padding-left: 18px; }
-.work:hover::before { opacity: 1; }
 .work-idx { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); position: relative; }
-.work:hover .work-idx { color: var(--brass); }
 .work-main { position: relative; }
 .work-name { font-family: var(--display); font-weight: 700; font-size: clamp(1.4rem, 3.2vw, 2.6rem); letter-spacing: -0.03em; line-height: 1.05; }
 .work-name .y { color: var(--faint); font-weight: 400; }
@@ -438,6 +433,11 @@ body.legal-page { animation: pageIn 0.55s var(--ease); }
   section { padding-block: clamp(60px, 9vh, 96px); }
   /* dot-grid: маску отцентровать для узких экранов */
   .hero-fx .dots { -webkit-mask-image: radial-gradient(120% 70% at 50% 30%, #000 14%, transparent 72%); mask-image: radial-gradient(120% 70% at 50% 30%, #000 14%, transparent 72%); }
+  /* процесс: поджать воздух внутри карточек этапов */
+  .step { padding: 26px 24px; }
+  .step-n { margin-bottom: 18px; }
+  .step-bar { margin-bottom: 16px; }
+  .step-title { margin-bottom: 10px; }
 }
 @media (max-width: 560px) {
   .steps, .team-grid { grid-template-columns: 1fr; }
@@ -445,6 +445,15 @@ body.legal-page { animation: pageIn 0.55s var(--ease); }
   .fig { border-right: none; border-bottom: 1px solid var(--line); }
   .fig:last-child { border-bottom: none; }
   .footer-cols { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Touch: гасим залипающие hover-состояния после тапа ── */
+@media (hover: none) {
+  .step:hover, .principle:hover { background: var(--bg-elev); }
+  .fig:hover { background: transparent; }
+  .member:hover { background: var(--bg); }
+  .svc:hover .svc-title { color: var(--ink); }
+  .crow:hover { background: transparent; }
 }
 
 /* ── Reduced motion ────────────────────────────────────── */
