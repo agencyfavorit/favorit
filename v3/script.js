@@ -50,14 +50,34 @@
   );
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-  /* ── Magnetic buttons (desktop only) ───────────────────── */
-  if (finePointer && !reduced && hasGSAP) {
-    document.querySelectorAll('.btn-solid, .btn-brass').forEach((btn) => {
-      btn.addEventListener('pointermove', (e) => {
-        const r = btn.getBoundingClientRect();
-        gsap.to(btn, { x: (e.clientX - (r.left + r.width / 2)) * 0.25, y: (e.clientY - (r.top + r.height / 2)) * 0.35, duration: 0.4, ease: 'power3.out' });
-      });
-      btn.addEventListener('pointerleave', () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.4)' }));
+  /* ── Contact form → serverless function (Telegram) ─────── */
+  const form = document.getElementById('contactForm');
+  if (form) {
+    const btn = document.getElementById('submitBtn');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      const original = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Отправляем…';
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      })
+        .then((res) => { if (!res.ok) throw new Error('bad status'); })
+        .then(() => {
+          btn.textContent = 'Отправлено ✓';
+          btn.style.background = '#7bb86a'; btn.style.color = '#0a0a0b';
+          form.reset();
+        })
+        .catch(() => {
+          btn.textContent = 'Не отправилось, попробуйте ещё раз';
+          btn.style.background = '#c0563f'; btn.style.color = '#fff';
+        })
+        .finally(() => {
+          setTimeout(() => { btn.textContent = original; btn.style.background = ''; btn.style.color = ''; btn.disabled = false; }, 4000);
+        });
     });
   }
 
@@ -98,21 +118,5 @@
     });
   }, { threshold: 0.5 });
   document.querySelectorAll('[data-count]').forEach((el) => countIO.observe(el));
-
-  /* ── Form feedback ─────────────────────────────────────── */
-  const form = document.getElementById('contactForm');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      const btn = document.getElementById('submitBtn');
-      const original = btn.textContent;
-      btn.textContent = 'Отправлено ✓';
-      btn.style.background = '#7bb86a';
-      btn.style.color = '#0a0a0b';
-      form.reset();
-      setTimeout(() => { btn.textContent = original; btn.style.background = ''; btn.style.color = ''; }, 3500);
-    });
-  }
 
 })();
