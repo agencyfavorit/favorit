@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Фаворит — IT-агентство полного цикла. Проектируем и разрабатываем веб-приложения, мобильные продукты и AI-системы для компаний, которые играют на победу.">
+  <meta name="theme-color" content="#0a0a0b">
+  <meta property="og:title" content="Фаворит — IT-агентство">
+  <meta property="og:description" content="Цифровые продукты для компаний, которые играют на победу.">
+  <meta property="og:type" content="website">
+  <title>Фаворит — IT-агентство полного цикла</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%23c8a86b' stroke-width='8'/><circle cx='50' cy='50' r='14' fill='%23c8a86b'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@300;400;500;600&display=swap&subset=cyrillic,cyrillic-ext,latin" rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────── -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand" aria-label="Фаворит — на главную">
+      <svg class="brand-mark" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <circle cx="14" cy="14" r="11.4" stroke="currentColor" stroke-width="1.5"/>
+        <circle class="marker" cx="14" cy="2.6" r="2.6" fill="#c8a86b"/>
+      </svg>
+      <span class="brand-name">FVRT</span>
+    </a>
+    <nav class="nav-links" aria-label="Основная навигация">
+      <a href="#services">Услуги</a>
+      <a href="#process">Процесс</a>
+      <a href="#work">Результат</a>
+      <a href="#team">Команда</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <div class="nav-right">
+      <button class="btn btn-solid" data-scroll="#contact">Начать проект</button>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Mobile menu ──────────────────────────────────────── -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="m-close" id="mClose">[ закрыть ]</button>
+  <a href="#services" class="m-link"><span>01</span>Услуги</a>
+  <a href="#process" class="m-link"><span>02</span>Процесс</a>
+  <a href="#work" class="m-link"><span>03</span>Результат</a>
+  <a href="#team" class="m-link"><span>04</span>Команда</a>
+  <a href="#contact" class="m-link"><span>05</span>Контакты</a>
+  <div class="mobile-foot">
+    <a href="mailto:hello@favorit.agency">hello@favorit.agency</a>
+    <a href="https://t.me/favoritagency">@favoritagency</a>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ── Hero ───────────────────────────────────────────── -->
+  <section class="hero" id="home">
+    <div class="wrap hero-inner">
+      <div class="hero-bottom">
+        <h1 class="hero-title">
+          <span class="row"><span data-line>Создаём</span></span>
+          <span class="row"><span data-line>цифровые</span></span>
+          <span class="row"><span data-line class="outline brass">продукты</span></span>
+        </h1>
+        <div class="hero-foot" data-hero>
+          <p class="hero-lede">
+            Проектируем и разрабатываем веб-приложения, мобильные продукты и AI-системы.
+            Работаем с компаниями, которые <em>играют на победу</em>, а не на участие.
+          </p>
+          <div class="hero-stats">
+            <div class="hstat"><div class="n">20<em>+</em></div><div class="l">Лет опыта команды</div></div>
+            <div class="hstat"><div class="n">6</div><div class="l">Направлений</div></div>
+            <div class="hstat"><div class="n">24<em>ч</em></div><div class="l">Ответ на заявку</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Manifesto ──────────────────────────────────────── -->
+  <section class="manifesto">
+    <div class="wrap manifesto-grid">
+      <p class="manifesto-text reveal">
+        Хороший продукт — это <em>точное решение</em> правильно сформулированной задачи.
+        <span class="ghost">Мы не пишем код ради кода.</span>
+        Мы строим системы, которые выводят бизнес вперёд — и остаёмся рядом, пока он растёт.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Services ───────────────────────────────────────── -->
+  <section id="services">
+    <div class="wrap">
+      <div class="head">
+        <div class="left">
+          <h2 class="section-title reveal">Шесть направлений,<br>один уровень</h2>
+        </div>
+        <p class="note">Полный цикл — от стратегии и дизайна до запуска и сопровождения продукта. Одна точка ответственности за весь результат.</p>
+      </div>
+      <div class="svc-list">
+        <article class="svc reveal">
+          <h3 class="svc-title">Веб-разработка</h3>
+          <p class="svc-desc">SPA, PWA и e-commerce платформы с адаптивным дизайном и высокой производительностью — от лендинга до сложной корпоративной системы.</p>
+          <div class="svc-tags"><span class="tag">React</span><span class="tag">Next.js</span><span class="tag">Vue 3</span><span class="tag">Node.js</span></div>
+        </article>
+        <article class="svc reveal">
+          <h3 class="svc-title">Мобильные приложения</h3>
+          <p class="svc-desc">Нативные и кроссплатформенные приложения для iOS и Android с продуманным UX и нативной производительностью.</p>
+          <div class="svc-tags"><span class="tag">Flutter</span><span class="tag">Swift</span><span class="tag">Kotlin</span></div>
+        </article>
+        <article class="svc reveal">
+          <h3 class="svc-title">AI &amp; ML</h3>
+          <p class="svc-desc">Рекомендательные системы, компьютерное зрение, NLP и предиктивная аналитика — внедрённые в реальные бизнес-процессы.</p>
+          <div class="svc-tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">OpenAI</span></div>
+        </article>
+        <article class="svc reveal">
+          <h3 class="svc-title">Backend &amp; DevOps</h3>
+          <p class="svc-desc">Надёжная инфраструктура, высоконагруженные API и CI/CD для быстрого, предсказуемого деплоя.</p>
+          <div class="svc-tags"><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">AWS</span></div>
+        </article>
+        <article class="svc reveal">
+          <h3 class="svc-title">Продуктовый дизайн</h3>
+          <p class="svc-desc">Интерфейсы, которые приятно использовать. Прототипы, дизайн-системы и UX-исследования на основе данных.</p>
+          <div class="svc-tags"><span class="tag">Figma</span><span class="tag">Дизайн-системы</span><span class="tag">UX</span></div>
+        </article>
+        <article class="svc reveal">
+          <h3 class="svc-title">Blockchain &amp; Web3</h3>
+          <p class="svc-desc">Децентрализованные приложения, аудит смарт-контрактов и решения для DeFi и NFT под ключ.</p>
+          <div class="svc-tags"><span class="tag">Solidity</span><span class="tag">Web3.js</span><span class="tag">Ethereum</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Process ────────────────────────────────────────── -->
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="head">
+        <div class="left">
+          <h2 class="section-title reveal">Процесс без сюрпризов</h2>
+        </div>
+        <p class="note">Прозрачная методология. Вы всегда знаете, на каком этапе проект и что будет дальше.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-n">ЭТАП 01</div>
+          <div class="step-bar"></div>
+          <h3 class="step-title">Исследование</h3>
+          <p class="step-desc">Погружаемся в бизнес-контекст, изучаем рынок и аудиторию. Формулируем задачу точнее, чем в брифе.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-n">ЭТАП 02</div>
+          <div class="step-bar"></div>
+          <h3 class="step-title">Стратегия и дизайн</h3>
+          <p class="step-desc">Проектируем архитектуру и UX-концепцию. Прототипируем и тестируем до первой строки кода.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-n">ЭТАП 03</div>
+          <div class="step-bar"></div>
+          <h3 class="step-title">Разработка</h3>
+          <p class="step-desc">Двухнедельные спринты с еженедельными демо. Прогресс виден в реальном времени, а не за день до дедлайна.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-n">ЭТАП 04</div>
+          <div class="step-bar"></div>
+          <h3 class="step-title">Запуск и рост</h3>
+          <p class="step-desc">Выводим в продакшен, следим за метриками, остаёмся на сопровождении. Запуск — это старт, а не финиш.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Standards ──────────────────────────────────────── -->
+  <section id="figures">
+    <div class="wrap">
+      <div class="head">
+        <div class="left">
+          <h2 class="section-title reveal">Стандарты работы</h2>
+        </div>
+        <p class="note">То, что вы получаете на любом проекте — по умолчанию, без звёздочек.</p>
+      </div>
+      <div class="figures">
+        <div class="fig reveal"><div class="fig-n"><span data-count="2">0</span><em> нед</em></div><div class="fig-l">Спринт с демо и прогрессом</div></div>
+        <div class="fig reveal"><div class="fig-n"><span data-count="100">0</span><em>%</em></div><div class="fig-l">Исходники и права остаются у вас</div></div>
+        <div class="fig reveal"><div class="fig-n"><span data-count="12">0</span><em> мес</em></div><div class="fig-l">Поддержка после запуска</div></div>
+        <div class="fig reveal"><div class="fig-n">1</div><div class="fig-l">Точка ответственности за результат</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Work index ─────────────────────────────────────── -->
+  <section id="work">
+    <div class="wrap">
+      <div class="head">
+        <div class="left">
+          <h2 class="section-title reveal">Что вы получаете</h2>
+        </div>
+        <p class="note">Не только код, а готовый продукт и всё для его роста — на каждом проекте.</p>
+      </div>
+      <div class="work-list">
+        <div class="work deliver reveal">
+          <div class="work-idx">01</div>
+          <div class="work-main">
+            <div class="work-name">Рабочий продукт в срок</div>
+            <p class="work-desc">Запускаем то, что приносит результат, а не «почти готово». Сроки фиксируем на старте и держим.</p>
+          </div>
+        </div>
+        <div class="work deliver reveal">
+          <div class="work-idx">02</div>
+          <div class="work-main">
+            <div class="work-name">Демо каждую неделю</div>
+            <p class="work-desc">Видите прогресс в реальном времени и влияете на результат, а не ждёте «чёрный ящик» до дедлайна.</p>
+          </div>
+        </div>
+        <div class="work deliver reveal">
+          <div class="work-idx">03</div>
+          <div class="work-main">
+            <div class="work-name">Документация и исходники</div>
+            <p class="work-desc">Весь код, доступы и документация остаются у вас. Никакой привязки к подрядчику.</p>
+          </div>
+        </div>
+        <div class="work deliver reveal">
+          <div class="work-idx">04</div>
+          <div class="work-main">
+            <div class="work-name">Поддержка и развитие</div>
+            <p class="work-desc">Остаёмся на связи после запуска — чиним, развиваем и масштабируем продукт вместе с вами.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Principles ─────────────────────────────────────── -->
+  <section class="testi" id="principles">
+    <div class="wrap">
+      <div class="head">
+        <div class="left">
+          <h2 class="section-title reveal">Во что мы верим</h2>
+        </div>
+        <p class="note">Принципы, по которым работаем на каждом проекте — даже когда так сложнее для нас.</p>
+      </div>
+      <div class="principles">
+        <article class="principle reveal">
+          <div class="principle-n">01</div>
+          <h3 class="principle-title">Точное решение,<br>а не максимум кода</h3>
+          <p class="principle-text">Начинаем с задачи бизнеса, а не с технологий. Если фичу можно не делать — скажем об этом прямо. Лучший код — тот, который не пришлось писать.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="principle-n">02</div>
+          <h3 class="principle-title">Прозрачность<br>вместо обещаний</h3>
+          <p class="principle-text">Демо каждую неделю, честные сроки и сметы без звёздочек. Вы в любой момент видите, на что уходит время и бюджет.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="principle-n">03</div>
+          <h3 class="principle-title">Отвечаем за результат,<br>а не за акт</h3>
+          <p class="principle-text">Запуск — это старт, а не сдача-приёмка. Хороший продукт живёт и растёт, и мы остаёмся рядом, пока он растёт.</p>
+        </article>
+        <article class="principle reveal">
+          <div class="principle-n">04</div>
+          <h3 class="principle-title">Никакой привязки<br>к подрядчику</h3>
+          <p class="principle-text">Код, доступы и документация — ваши с первого дня. Уйти от нас должно быть так же просто, как начать.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Team ───────────────────────────────────────────── -->
+  <section id="team">
+    <div class="wrap">
+      <div class="head">
+        <div class="left">
+          <h2 class="section-title reveal">Люди, которые делают<br>продукты вместе с нами</h2>
+        </div>
+        <p class="note">Под каждую задачу собираем команду из специалистов, с которыми работаем не первый год — на субподряде, но с единым стандартом качества. Привлекаем тех, кто реально усилит проект.</p>
+      </div>
+      <div class="team-grid">
+        <article class="member reveal">
+          <div class="member-ava">АК</div>
+          <div class="member-name">Александр Ковалёв</div>
+          <div class="member-role">CEO &amp; Lead Architect</div>
+          <p class="member-bio">10+ лет в разработке. Запустил 80+ проектов, включая платформы с нагрузкой 1M+ пользователей.</p>
+          <div class="member-skills"><span>System Design</span><span>Node.js</span><span>AWS</span></div>
+        </article>
+        <article class="member reveal">
+          <div class="member-ava">МС</div>
+          <div class="member-name">Мария Смирнова</div>
+          <div class="member-role">Lead Product Designer</div>
+          <p class="member-bio">Design thinking и UX-исследования. Работала с продуктами с аудиторией 5M+ в e-commerce и fintech.</p>
+          <div class="member-skills"><span>Figma</span><span>UX Research</span><span>Design Systems</span></div>
+        </article>
+        <article class="member reveal">
+          <div class="member-ava">ДП</div>
+          <div class="member-name">Дмитрий Петров</div>
+          <div class="member-role">Lead AI/ML Engineer</div>
+          <p class="member-bio">PhD в машинном обучении. Рекомендательные системы и CV-модели для компаний из Fortune 500.</p>
+          <div class="member-skills"><span>Python</span><span>PyTorch</span><span>MLOps</span></div>
+        </article>
+        <article class="member reveal">
+          <div class="member-ava">ЕВ</div>
+          <div class="member-name">Елена Волкова</div>
+          <div class="member-role">Head of Product</div>
+          <p class="member-bio">Сертифицированный Scrum Master, 8 лет в управлении продуктом. Вела проекты с бюджетом до 50M ₽.</p>
+          <div class="member-skills"><span>Agile</span><span>Product</span><span>OKR</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="cta-inner reveal">
+        <div class="cta-glow"></div>
+        <h2>Сделайте ставку<br>на <em>фаворита</em></h2>
+        <p>Расскажите о задаче — вернёмся с конкретным предложением в течение 24 часов. Без воды и обязательств.</p>
+        <div class="cta-btns">
+          <button class="btn btn-brass btn-lg" data-scroll="#contact">Начать проект</button>
+          <a href="https://t.me/favoritagency" class="btn btn-ghost btn-lg">Telegram →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ────────────────────────────────────────── -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-left">
+        <h2>Начнём работу<br>над вашим<br>проектом</h2>
+        <p>Опишите задачу в свободной форме — мы сами зададим нужные вопросы.</p>
+        <div class="contact-rows">
+          <a class="crow" href="mailto:hello@favorit.agency"><span class="crow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span><span><span class="crow-l">Email</span><span class="crow-v">hello@favorit.agency</span></span></a>
+          <a class="crow" href="https://t.me/favoritagency"><span class="crow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5 2.8 11.3c-.6.2-.6 1 0 1.2l4.6 1.5 1.7 5.2c.2.5.8.6 1.1.2l2.5-2.7 4.5 3.3c.4.3 1 .1 1.1-.4l3.2-14.4c.1-.6-.4-1-.9-.8Z"/><path d="m8 14.5 9-7"/></svg></span><span><span class="crow-l">Telegram</span><span class="crow-v">@favoritagency</span></span></a>
+          <div class="crow"><span class="crow-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-5.5 7-11.5a7 7 0 1 0-14 0c0 6 7 11.5 7 11.5Z"/><circle cx="12" cy="10" r="2.6"/></svg></span><span><span class="crow-l">Адрес</span><span class="crow-v">Москва, проспект Андропова, 38</span></span></div>
+        </div>
+      </div>
+      <form class="form reveal" id="contactForm" novalidate>
+        <div class="field">
+          <label for="fName">Имя и компания</label>
+          <input type="text" id="fName" name="name" placeholder="Алексей, SupplyHub" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="fEmail">Email</label>
+          <input type="email" id="fEmail" name="email" placeholder="alex@company.ru" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="fBudget">Бюджет проекта</label>
+          <input type="text" id="fBudget" name="budget" placeholder="от 500 000 ₽">
+        </div>
+        <div class="field">
+          <label for="fMsg">Расскажите о проекте</label>
+          <textarea id="fMsg" name="message" placeholder="Что хотите сделать? Какая задача стоит?" required></textarea>
+        </div>
+        <div class="form-foot">
+          <p class="form-note">Нажимая «Отправить», вы соглашаетесь с <a href="privacy.html">политикой обработки персональных данных</a>.</p>
+          <button type="submit" class="btn btn-brass btn-lg" id="submitBtn">Отправить заявку</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── Footer ───────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#top" class="brand" aria-label="Фаворит — на главную">
+          <svg class="brand-mark" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="14" cy="14" r="11.4" stroke="currentColor" stroke-width="1.5"/>
+            <circle class="marker" cx="14" cy="2.6" r="2.6" fill="#c8a86b"/>
+          </svg>
+          <span class="brand-name">FVRT</span>
+        </a>
+        <p>IT-агентство полного цикла. Создаём цифровые продукты с 2005 года.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Услуги</h4>
+          <a href="#services">Веб-разработка</a>
+          <a href="#services">Мобильные приложения</a>
+          <a href="#services">AI &amp; ML</a>
+          <a href="#services">Backend &amp; DevOps</a>
+        </div>
+        <div class="footer-col">
+          <h4>Компания</h4>
+          <a href="#process">Процесс</a>
+          <a href="#work">Результат</a>
+          <a href="#team">Команда</a>
+          <a href="#contact">Контакты</a>
+        </div>
+        <div class="footer-col">
+          <h4>Соцсети</h4>
+          <a href="https://t.me/favoritagency">Telegram</a>
+        </div>
+      </div>
+    </div>
+    <p class="footer-reqs">ООО «Фаворит» · ИНН 7743578436 · КПП 772501001 · 115487, г. Москва, проспект Андропова, д. 38, помещение III, комната 1–24</p>
+    <div class="footer-bottom">
+      <span>© 2026 ООО «Фаворит». Все права защищены.</span>
+      <div class="footer-legal">
+        <a href="privacy.html">Политика конфиденциальности</a>
+        <a href="offer.html">Оферта</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
