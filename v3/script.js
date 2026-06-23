@@ -85,6 +85,32 @@
     });
   }
 
+  /* ── Hero guilloché — generated rosette (banknote-grade detail) ── */
+  document.querySelectorAll('.orbit-svg .guilloche').forEach((g) => {
+    const C = 200, TWO_PI = Math.PI * 2;
+    const rose = (petals, baseR, amp, cycles, precess, cls) => {
+      const steps = 132;
+      let d = '';
+      for (let c = 0; c < cycles; c++) {
+        const ph = c * precess;
+        for (let i = 0; i <= steps; i++) {
+          const t = (i / steps) * TWO_PI;
+          const rr = baseR + amp * Math.cos(petals * t);
+          const x = C + rr * Math.cos(t + ph);
+          const y = C + rr * Math.sin(t + ph);
+          d += (c === 0 && i === 0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1);
+        }
+      }
+      const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', d);
+      p.setAttribute('pathLength', '1');
+      p.setAttribute('class', 'g-line ' + cls);
+      g.appendChild(p);
+    };
+    rose(7, 108, 44, 28, TWO_PI / 28, 'g-bone');
+    rose(7, 108, 44, 28, TWO_PI / 28 + 0.05, 'g-brass');
+  });
+
   /* ── Reduced motion: show everything, skip animation ───── */
   if (reduced || !hasGSAP) {
     document.querySelectorAll('.reveal').forEach((el) => { el.style.opacity = 1; el.style.transform = 'none'; el.style.clipPath = 'none'; });

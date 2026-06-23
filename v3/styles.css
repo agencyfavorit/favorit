@@ -164,11 +164,22 @@ section { position: relative; padding-block: clamp(72px, 11vh, 140px); }
 }
 .orbit-svg .ring { stroke: var(--line); stroke-width: 1; }
 .orbit-svg .ring.track { stroke: var(--brass-line); }
-.orbit-svg .core { fill: none; stroke: var(--line); stroke-width: 1; }
+.orbit-svg .ring.frame { stroke: rgba(200,168,107,0.18); }
+.orbit-svg .hub { fill: var(--brass); filter: drop-shadow(0 0 5px rgba(200,168,107,0.6)); }
 .orbit-svg .trail { stroke: var(--brass); stroke-width: 1.6; stroke-linecap: round; opacity: 0.45; }
 .orbit-svg .lead { fill: var(--brass); filter: drop-shadow(0 0 7px rgba(200,168,107,0.65)); }
 .orbit-svg .orbit { transform-box: view-box; transform-origin: 200px 200px; animation: orbitSpin 18s linear infinite; }
 @keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+/* guilloché rosette — banknote-grade hairline weave (path built in JS) */
+.orbit-svg .g-line {
+  fill: none; stroke-width: 0.7; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: guillocheDraw 2.8s var(--ease) 0.3s forwards;
+}
+.orbit-svg .g-bone { stroke: rgba(236,234,227,0.11); }
+.orbit-svg .g-brass { stroke: rgba(200,168,107,0.26); animation-delay: 0.55s; }
+@keyframes guillocheDraw { to { stroke-dashoffset: 0; } }
 
 .hero-inner {
   display: flex; flex-direction: column; justify-content: flex-end;
