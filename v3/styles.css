@@ -401,6 +401,16 @@ body.legal-page { animation: pageIn 0.55s var(--ease); }
   .work { grid-template-columns: 40px 1fr; }
   .work-metric { display: none; }
 }
+@media (max-width: 680px) {
+  /* hero: высота по контенту, контент сверху — убираем пустоту над заголовком */
+  .hero, .hero-inner { min-height: auto; }
+  .hero-inner { justify-content: flex-start; padding-top: 124px; padding-bottom: clamp(56px, 10vh, 84px); }
+  .hero-foot { margin-top: 30px; }
+  .hero-stats { gap: 20px; }
+  .hstat .l { font-size: 0.62rem; }
+  /* чуть теснее вертикальный ритм секций на телефоне */
+  section { padding-block: clamp(60px, 9vh, 96px); }
+}
 @media (max-width: 560px) {
   .steps, .team-grid { grid-template-columns: 1fr; }
   .figures { grid-template-columns: 1fr; }
