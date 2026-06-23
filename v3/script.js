@@ -54,12 +54,16 @@
   const form = document.getElementById('contactForm');
   if (form) {
     const btn = document.getElementById('submitBtn');
+    const en = document.documentElement.lang === 'en';
+    const T = en
+      ? { sending: 'Sending…', sent: 'Sent ✓', err: 'Something went wrong, try again' }
+      : { sending: 'Отправляем…', sent: 'Отправлено ✓', err: 'Не отправилось, попробуйте ещё раз' };
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
       const original = btn.textContent;
       btn.disabled = true;
-      btn.textContent = 'Отправляем…';
+      btn.textContent = T.sending;
       fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -67,12 +71,12 @@
       })
         .then((res) => { if (!res.ok) throw new Error('bad status'); })
         .then(() => {
-          btn.textContent = 'Отправлено ✓';
+          btn.textContent = T.sent;
           btn.style.background = '#7bb86a'; btn.style.color = '#0a0a0b';
           form.reset();
         })
         .catch(() => {
-          btn.textContent = 'Не отправилось, попробуйте ещё раз';
+          btn.textContent = T.err;
           btn.style.background = '#c0563f'; btn.style.color = '#fff';
         })
         .finally(() => {
