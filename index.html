@@ -3,397 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Фаворит - Создаём инновационные IT-решения: веб-приложения, мобильные приложения, AI и ML алгоритмы для вашего бизнеса">
+    <meta name="description" content="Сайт находится на техническом обслуживании">
     <meta name="theme-color" content="#6366f1">
-    <title>Фаворит - Разработка IT-решений</title>
+    <title>Техническое обслуживание</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚡</text></svg>">
-    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700;800&display=swap&subset=cyrillic,cyrillic-ext,latin,latin-ext" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Commissioner', 'DM Sans', sans-serif;
+            background: #0a0a1a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #6366f1, transparent);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #8b5cf6, transparent);
+            bottom: -80px;
+            left: -80px;
+            animation-delay: -3s;
+        }
+
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #a78bfa, transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        .orb-3 {
+            animation-name: float-center;
+        }
+
+        @keyframes float-center {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) translateY(-30px) scale(1.05); }
+        }
+
+        .maintenance {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 650px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gear-icon {
+            font-size: 4rem;
+            display: inline-block;
+            animation: spin 6s linear infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 1.2rem;
+        }
+
+        h1 .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #a78bfa, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #a78bfa);
+            border-radius: 2px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .contact-info a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #c4b5fd;
+        }
+
+        .lang-switch {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 10;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a78bfa;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-family: 'Commissioner', sans-serif;
+        }
+
+        .lang-switch:hover {
+            background: rgba(99, 102, 241, 0.25);
+            color: #c4b5fd;
+        }
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6366f1;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.3s; }
+        .dot:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <div class="nav-wrapper">
-                <div class="logo">
-                    <span class="logo-icon">⚡</span>
-                    <span class="logo-text">Фаворит</span>
-                </div>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#home" class="nav-link">Главная</a></li>
-                    <li><a href="#services" class="nav-link">Услуги</a></li>
-                    <li><a href="#projects" class="nav-link">Проекты</a></li>
-                    <li><a href="#team" class="nav-link">Команда</a></li>
-                    <li><a href="#contact" class="nav-link">Контакты</a></li>
-                    <li><a href="index-en.html" class="nav-link lang-switch">EN</a></li>
-                </ul>
-                <button class="cta-button">Начать проект</button>
-                <div class="hamburger" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <a href="index-en.html" class="lang-switch">EN</a>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-bg">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-        </div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="badge-dot"></span>
-                    Инновационные решения для вашего бизнеса
-                </div>
-                <h1 class="hero-title">
-                    Создаём <span class="gradient-text">IT-системы</span><br>
-                    которые работают на вас
-                </h1>
-                <p class="hero-description">
-                    Разрабатываем веб-приложения, мобильные приложения, сложные алгоритмы и AI-решения. 
-                    Превращаем ваши идеи в инновационные продукты.
-                </p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary">Обсудить проект</button>
-                    <button class="btn btn-secondary">Наши работы</button>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">150+</div>
-                        <div class="stat-label">Проектов</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Клиентов</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">7+</div>
-                        <div class="stat-label">Лет опыта</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-        </div>
-    </section>
+    <div class="bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Наши услуги</span>
-                <h2 class="section-title">Что мы делаем</h2>
-                <p class="section-description">
-                    Полный цикл разработки от идеи до запуска и поддержки
-                </p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">💻</div>
-                    <h3 class="service-title">Веб-разработка</h3>
-                    <p class="service-description">
-                        Современные веб-приложения на React, Vue, Next.js с адаптивным дизайном и высокой производительностью
-                    </p>
-                    <ul class="service-features">
-                        <li>SPA и PWA приложения</li>
-                        <li>E-commerce платформы</li>
-                        <li>Корпоративные порталы</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📱</div>
-                    <h3 class="service-title">Мобильная разработка</h3>
-                    <p class="service-description">
-                        Нативные и кроссплатформенные мобильные приложения для iOS и Android с безупречным UX
-                    </p>
-                    <ul class="service-features">
-                        <li>React Native / Flutter</li>
-                        <li>Native iOS/Android</li>
-                        <li>UI/UX дизайн</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🤖</div>
-                    <h3 class="service-title">AI & ML решения</h3>
-                    <p class="service-description">
-                        Интеграция искусственного интеллекта и машинного обучения для автоматизации бизнес-процессов
-                    </p>
-                    <ul class="service-features">
-                        <li>Анализ данных</li>
-                        <li>Прогнозирование</li>
-                        <li>Компьютерное зрение</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">⚙️</div>
-                    <h3 class="service-title">Backend & DevOps</h3>
-                    <p class="service-description">
-                        Надежная серверная инфраструктура, API, базы данных и автоматизация развертывания
-                    </p>
-                    <ul class="service-features">
-                        <li>Микросервисная архитектура</li>
-                        <li>Cloud инфраструктура</li>
-                        <li>CI/CD автоматизация</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🔐</div>
-                    <h3 class="service-title">Blockchain</h3>
-                    <p class="service-description">
-                        Разработка децентрализованных приложений, смарт-контрактов и криптовалютных решений
-                    </p>
-                    <ul class="service-features">
-                        <li>Smart contracts</li>
-                        <li>DeFi приложения</li>
-                        <li>NFT платформы</li>
-                    </ul>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🎨</div>
-                    <h3 class="service-title">UI/UX Дизайн</h3>
-                    <p class="service-description">
-                        Создание интуитивных интерфейсов с фокусом на пользовательский опыт и современные тренды
-                    </p>
-                    <ul class="service-features">
-                        <li>Прототипирование</li>
-                        <li>Дизайн-системы</li>
-                        <li>Пользовательские тесты</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="maintenance">
+        <div class="gear-icon">⚙️</div>
 
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Портфолио</span>
-                <h2 class="section-title">Наши проекты</h2>
-                <p class="section-description">
-                    Решения, которыми мы гордимся
-                </p>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <div class="project-overlay">
-                            <button class="project-btn">Подробнее</button>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">Web App</span>
-                            <span class="tag">React</span>
-                        </div>
-                        <h3 class="project-title">Платформа для онлайн-обучения</h3>
-                        <p class="project-description">
-                            Интерактивная платформа с видеокурсами, тестами и системой аналитики прогресса студентов
-                        </p>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <div class="project-overlay">
-                            <button class="project-btn">Подробнее</button>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">Mobile</span>
-                            <span class="tag">AI</span>
-                        </div>
-                        <h3 class="project-title">Fitness-приложение с AI</h3>
-                        <p class="project-description">
-                            Мобильное приложение с персональным тренером на основе машинного обучения
-                        </p>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <div class="project-overlay">
-                            <button class="project-btn">Подробнее</button>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">E-commerce</span>
-                            <span class="tag">Full Stack</span>
-                        </div>
-                        <h3 class="project-title">Маркетплейс для B2B</h3>
-                        <p class="project-description">
-                            Комплексная платформа для оптовых продаж с CRM и системой управления логистикой
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <h1>Сайт находится на <span class="gradient-text">техническом обслуживании</span></h1>
 
-    <!-- Team Section -->
-    <section class="team" id="team">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-badge">Наша команда</span>
-                <h2 class="section-title">Кто создаёт решения</h2>
-                <p class="section-description">
-                    Профессионалы с опытом работы в крупнейших технологических компаниях
-                </p>
-            </div>
-            <div class="team-grid">
-                <div class="team-card">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <span class="avatar-text">АК</span>
-                    </div>
-                    <h3 class="team-name">Александр Ковалёв</h3>
-                    <p class="team-role">CEO & Senior Full-Stack Developer</p>
-                    <p class="team-bio">10+ лет в разработке, ex-Яндекс</p>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <span class="avatar-text">МС</span>
-                    </div>
-                    <h3 class="team-name">Мария Смирнова</h3>
-                    <p class="team-role">Lead UI/UX Designer</p>
-                    <p class="team-bio">Дизайн-мышление и современный UX</p>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <span class="avatar-text">ДП</span>
-                    </div>
-                    <h3 class="team-name">Дмитрий Петров</h3>
-                    <p class="team-role">Lead AI/ML Engineer</p>
-                    <p class="team-bio">Специалист по машинному обучению</p>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                        <span class="avatar-text">ЕВ</span>
-                    </div>
-                    <h3 class="team-name">Елена Волкова</h3>
-                    <p class="team-role">Project Manager</p>
-                    <p class="team-bio">Agile-эксперт, управление продуктом</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <p class="description">
+            Мы улучшаем наш сайт, чтобы сделать его ещё лучше для вас.
+            Совсем скоро мы вернёмся в обновлённом виде!
+        </p>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <div class="contact-wrapper">
-                <div class="contact-info">
-                    <span class="section-badge">Свяжитесь с нами</span>
-                    <h2 class="section-title">Начнём работу над вашим проектом</h2>
-                    <p class="contact-description">
-                        Расскажите о вашей задаче, и мы предложим оптимальное решение
-                    </p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-icon">📧</div>
-                            <div class="contact-text">
-                                <div class="contact-label">Email</div>
-                                <div class="contact-value">info@favorit.dev</div>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📱</div>
-                            <div class="contact-text">
-                                <div class="contact-label">Телефон</div>
-                                <div class="contact-value">+7 (495) 123-45-67</div>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📍</div>
-                            <div class="contact-text">
-                                <div class="contact-label">Офис</div>
-                                <div class="contact-value">Москва, ул. Тверская, 1</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form-wrapper">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Имя</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Телефон</label>
-                            <input type="tel" id="phone" name="phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Расскажите о проекте</label>
-                            <textarea id="message" name="message" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Отправить заявку</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="divider"></div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="logo">
-                        <span class="logo-icon">⚡</span>
-                        <span class="logo-text">Фаворит</span>
-                    </div>
-                    <p class="footer-description">
-                        Создаём инновационные IT-решения для развития вашего бизнеса
-                    </p>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title">Услуги</h4>
-                    <ul class="footer-links">
-                        <li><a href="#services">Веб-разработка</a></li>
-                        <li><a href="#services">Мобильные приложения</a></li>
-                        <li><a href="#services">AI & ML</a></li>
-                        <li><a href="#services">UI/UX Дизайн</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title">Компания</h4>
-                    <ul class="footer-links">
-                        <li><a href="#team">О нас</a></li>
-                        <li><a href="#projects">Портфолио</a></li>
-                        <li><a href="#team">Команда</a></li>
-                        <li><a href="#contact">Контакты</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4 class="footer-title">Соцсети</h4>
-                    <div class="social-links">
-                        <a href="#" class="social-link">GitHub</a>
-                        <a href="#" class="social-link">LinkedIn</a>
-                        <a href="#" class="social-link">Telegram</a>
-                        <a href="#" class="social-link">Twitter</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Фаворит. Все права защищены.</p>
-            </div>
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div class="contact-info">
+            <span>Свяжитесь с нами: <a href="mailto:info@favorit.dev">info@favorit.dev</a></span>
+            <span>Telegram: <a href="https://t.me/favoritagency">@favoritagency</a></span>
+        </div>
+    </div>
 </body>
 </html>
-
