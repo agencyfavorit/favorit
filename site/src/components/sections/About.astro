@@ -1,0 +1,133 @@
+---
+import Button from '@/components/ui/Button.astro';
+import Ghost from '@/components/ui/Ghost.astro';
+import { typo } from '@/lib/typo';
+import { CONTACTS } from '@/config/site';
+import type { Dict } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+const { about, locale } = dict;
+const t = (s: string) => typo(s, locale);
+---
+
+<section id="about" class="section section--paper" aria-labelledby="about-title">
+  <Ghost word={about.ghost} locale={locale} on="paper" />
+
+  <div class="wrap split">
+    <div>
+      <p class="t-label">{about.label}</p>
+      <h2 id="about-title" class="t-h2" set:html={t(about.title)} />
+    </div>
+    <div>
+      <p class="t-lead about__lead" set:html={t(about.lead)} />
+      <div class="about__actions">
+        <Button href="#contact" block>{about.ctaProject}</Button>
+        <Button href={CONTACTS.telegramUrl} icon="telegram" block>{about.ctaTelegram}</Button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap split about__facts">
+    <figure class="quote">
+      <blockquote set:html={t(about.quote)} />
+      <figcaption>{about.quoteCaption}</figcaption>
+    </figure>
+    <dl class="tiles">
+      {
+        about.tiles.map((tile) => (
+          <div class="tile">
+            <dt class="tile__value">{tile.value}</dt>
+            <dd class="tile__label" set:html={t(tile.label)} />
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .about__lead {
+    max-width: 52ch;
+  }
+  .about__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+  .about__facts {
+    margin-top: clamp(48px, 6vw, 96px);
+    align-items: stretch;
+  }
+
+  .quote {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+    padding: clamp(26px, 3vw, 44px);
+    border-radius: var(--radius);
+    background: var(--c-white);
+  }
+  .quote blockquote {
+    font: 600 clamp(1.25rem, 1rem + 0.8vw, 1.75rem) / 1.3 var(--ff-display);
+    letter-spacing: -0.01em;
+    quotes: '«' '»';
+  }
+  :global(:lang(en)) .quote blockquote {
+    quotes: '“' '”';
+  }
+  .quote blockquote::before {
+    content: open-quote;
+  }
+  .quote blockquote::after {
+    content: close-quote;
+  }
+  .quote figcaption {
+    color: var(--c-muted);
+    font-size: 0.95rem;
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 18px;
+    min-height: 160px;
+    padding: clamp(20px, 2.4vw, 32px);
+    border-radius: var(--radius);
+    background: var(--c-white);
+  }
+  .tile__value {
+    font: 800 clamp(2.1rem, 1.4rem + 2vw, 3.3rem) / 1 var(--ff-display);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .tile__label {
+    max-width: 22ch;
+    color: var(--c-muted);
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 900px) {
+    .about__facts {
+      gap: 12px;
+    }
+  }
+  @media (max-width: 600px) {
+    .tile {
+      min-height: 140px;
+      padding: 20px;
+    }
+  }
+</style>

@@ -1,0 +1,151 @@
+---
+import { Picture } from 'astro:assets';
+import Button from '@/components/ui/Button.astro';
+import { typo } from '@/lib/typo';
+import { images, PICTURE_FORMATS, WIDTHS_HALF } from '@/lib/images';
+import type { Dict, Service } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+  service: Service;
+}
+
+const { dict, service } = Astro.props;
+const { locale, servicePage, services } = dict;
+const t = (s: string) => typo(s, locale);
+const index = services.items.findIndex((s) => s.id === service.id) + 1;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="s-hero" aria-labelledby="service-title">
+  <div class="wrap s-hero__grid">
+    <div class="s-hero__text">
+      <nav class="crumbs" aria-label={locale === 'ru' ? 'Навигационная цепочка' : 'Breadcrumb'}>
+        <ol>
+          <li><a href={dict.path}>{dict.hero.mark}</a></li>
+          <li><a href={`${dict.path}#services`}>{servicePage.label}</a></li>
+          <li aria-current="page">{service.title}</li>
+        </ol>
+      </nav>
+      <p class="s-hero__count" aria-hidden="true">{`[ ${pad(index)} / ${pad(services.items.length)} ]`}</p>
+      <h1 id="service-title" class="s-hero__title" set:html={t(service.title)} />
+      <p class="t-lead s-hero__lead" set:html={t(service.page.lead)} />
+      <ul class="s-hero__stack" aria-label={services.stackLabel}>
+        {service.stack.map((tech) => <li>{tech}</li>)}
+      </ul>
+      <div class="s-hero__actions">
+        <Button href="#contact" size="lg" data-brief-service={service.id}>{servicePage.priceCta}</Button>
+      </div>
+    </div>
+    <div class="s-hero__media">
+      <Picture
+        src={images[service.id]}
+        formats={[...PICTURE_FORMATS]}
+        widths={[...WIDTHS_HALF]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        alt={service.alt}
+        priority
+        class="s-hero__img"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .s-hero {
+    padding-top: calc(var(--nav-h) + clamp(28px, 4vw, 64px));
+    padding-bottom: var(--section-y);
+    background: var(--c-white);
+  }
+  .s-hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(32px, 5vw, 96px);
+    align-items: stretch;
+  }
+  .s-hero__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+    padding-top: clamp(8px, 2vw, 32px);
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    font-size: 0.92rem;
+    color: var(--c-muted);
+  }
+  .crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 10px;
+    color: var(--c-soft);
+  }
+  .crumbs a:hover {
+    color: var(--c-ink);
+  }
+  .crumbs [aria-current] {
+    color: var(--c-ink);
+  }
+
+  .s-hero__count {
+    font: 500 0.95rem / 1 var(--ff-display);
+    font-variant-numeric: tabular-nums;
+    margin-top: clamp(16px, 4vw, 64px);
+  }
+  .s-hero__title {
+    font: 800 clamp(2.6rem, 1.2rem + 4.6vw, 6.2rem) / 0.95 var(--ff-display);
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+  }
+  .s-hero__lead {
+    max-width: 50ch;
+  }
+  .s-hero__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .s-hero__stack li {
+    padding: 11px 18px;
+    border-radius: 999px;
+    background: var(--c-paper);
+    font: 500 0.98rem / 1 var(--ff-text);
+  }
+  .s-hero__actions {
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  .s-hero__media {
+    position: relative;
+    min-height: min(78svh, 820px);
+    overflow: clip;
+    background: var(--c-paper);
+  }
+  .s-hero__media > :global(picture) {
+    display: contents;
+  }
+  .s-hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 900px) {
+    .s-hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .s-hero__media {
+      min-height: 0;
+      aspect-ratio: 4 / 4.4;
+    }
+    .s-hero__count {
+      margin-top: 8px;
+    }
+  }
+</style>

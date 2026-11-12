@@ -1,0 +1,60 @@
+---
+import Base from '@/layouts/Base.astro';
+import Wordmark from '@/components/ui/Wordmark.astro';
+import Button from '@/components/ui/Button.astro';
+import { getDict } from '@/i18n';
+
+const ru = getDict('ru');
+const en = getDict('en');
+---
+
+<Base dict={ru} title={`${ru.notFound.title} — Фаворит`} path="/404/" noindex alternates={null}>
+  <main id="main" class="nf" tabindex="-1">
+    <div class="wrap">
+      <Wordmark word="404" locale="ru" class="nf__mark" />
+      <div class="nf__grid">
+        <section>
+          <h1 class="t-h2">{ru.notFound.title}</h1>
+          <p class="t-lead">{ru.notFound.text}</p>
+          <Button href={ru.path}>{ru.notFound.back}</Button>
+        </section>
+        <section lang="en">
+          <h2 class="t-h2">{en.notFound.title}</h2>
+          <p class="t-lead">{en.notFound.text}</p>
+          <Button href={en.path}>{en.notFound.back}</Button>
+        </section>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .nf {
+    min-height: 100svh;
+    padding-block: clamp(48px, 8vw, 112px);
+    background: var(--c-paper);
+  }
+  .nf:focus {
+    outline: none;
+  }
+  .nf__mark {
+    max-width: 920px;
+  }
+  .nf__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 6vw, 120px);
+    margin-top: clamp(40px, 6vw, 88px);
+  }
+  .nf__grid section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+  @media (max-width: 900px) {
+    .nf__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

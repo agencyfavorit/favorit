@@ -1,0 +1,82 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { wordmark } from '@/lib/wordmark';
+
+interface Props extends Omit<HTMLAttributes<'div'>, 'class'> {
+  word: string;
+  locale: string;
+  /** Подпись мелким кеглем у правой скобки (только в первом экране). */
+  note?: string;
+  /** Доля высоты, которая остаётся видимой: надпись «уходит» под следующий блок. */
+  crop?: number;
+  class?: string;
+}
+
+// `rest` несёт data-astro-cid-* родителя — без него scoped-стили родителя по `class` не применятся.
+const { word, locale, note, crop = 1, class: className, ...rest } = Astro.props;
+const g = wordmark(word, locale);
+const viewHeight = Math.round(g.height * crop * 100) / 100;
+---
+
+<div {...rest} class:list={['wm', crop < 1 && 'wm--crop', className]} aria-hidden="true">
+  <svg class="wm__svg" viewBox={`0 0 ${g.width} ${viewHeight}`} focusable="false">
+    <polygon points={g.left}></polygon>
+    <text x={g.textX} y={g.baseline} textLength={g.textLength} lengthAdjust="spacing">{g.text}</text>
+    <polygon points={g.right}></polygon>
+    {
+      note && (
+        <text class="wm__note" x={g.width - g.textX} y={g.baseline + 9} text-anchor="end">
+          {note}
+        </text>
+      )
+    }
+  </svg>
+  {note && <span class="wm__note-below">{note}</span>}
+</div>
+
+<style>
+  .wm {
+    position: relative;
+    user-select: none;
+  }
+  .wm__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    fill: currentColor;
+  }
+  .wm--crop .wm__svg {
+    overflow: hidden;
+  }
+  .wm__svg text {
+    font-family: var(--ff-display);
+    font-weight: 800;
+    font-size: 100px;
+    font-kerning: normal;
+  }
+  .wm__svg .wm__note {
+    font-family: var(--ff-text);
+    font-weight: 500;
+    font-size: 5.6px;
+  }
+  .wm__note-below {
+    display: none;
+  }
+
+  @media (max-width: 1100px) {
+    .wm__svg .wm__note {
+      font-size: 7.5px;
+    }
+  }
+  @media (max-width: 600px) {
+    .wm__svg .wm__note {
+      display: none;
+    }
+    .wm__note-below {
+      display: block;
+      margin-top: 8px;
+      text-align: end;
+      font: 500 0.75rem / 1 var(--ff-text);
+    }
+  }
+</style>

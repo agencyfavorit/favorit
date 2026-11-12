@@ -1,0 +1,61 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { typo } from '@/lib/typo';
+import type { Dict, ServiceId } from '@/i18n';
+
+/** Тёмная полоса «Стоимость — по запросу»: цены не публикуем, ведём в бриф с предвыбранной услугой. */
+interface Props {
+  dict: Dict;
+  service: ServiceId;
+}
+
+const { dict, service } = Astro.props;
+const { servicePage, locale } = dict;
+const t = (s: string) => typo(s, locale);
+---
+
+<section class="price" aria-labelledby="price-title">
+  <div class="wrap price__grid">
+    <h2 id="price-title" class="price__title" set:html={t(servicePage.priceTitle)} />
+    <div class="price__side">
+      <p class="price__text" set:html={t(servicePage.priceText)} />
+      <Button href="#contact" tone="light" size="lg" data-brief-service={service}>{servicePage.priceCta}</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .price {
+    padding-block: clamp(64px, 8vw, 120px);
+    background: var(--c-night);
+    color: var(--c-white);
+  }
+  .price__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(32px, 6vw, 120px);
+    align-items: end;
+  }
+  .price__title {
+    font: 800 clamp(2.2rem, 1rem + 4vw, 5.2rem) / 0.98 var(--ff-display);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .price__side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+  .price__text {
+    max-width: 44ch;
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.8);
+  }
+  @media (max-width: 900px) {
+    .price__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

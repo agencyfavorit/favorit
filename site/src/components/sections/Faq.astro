@@ -1,0 +1,150 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { typo } from '@/lib/typo';
+import { CONTACTS } from '@/config/site';
+import type { Dict, QA } from '@/i18n';
+
+/**
+ * Аккордеон на нативных <details name>: доступен без JS, открыт всегда один вопрос.
+ * По умолчанию — общие вопросы главной; на страницах услуг передаются свои.
+ */
+interface Props {
+  dict: Dict;
+  title?: string;
+  lead?: string;
+  items?: readonly QA[];
+}
+
+const { dict } = Astro.props;
+const { faq, locale } = dict;
+const { title = faq.title, lead = faq.lead, items = faq.items } = Astro.props;
+const t = (s: string) => typo(s, locale);
+---
+
+<section id="faq" class="section section--paper" aria-labelledby="faq-title">
+  <div class="wrap faq">
+    <div class="faq__intro">
+      <h2 id="faq-title" class="t-h2" set:html={t(title)} />
+      <p class="t-lead faq__lead" set:html={t(lead)} />
+      <div class="ask">
+        <p class="ask__title" set:html={t(faq.askTitle)} />
+        <Button href={CONTACTS.telegramUrl} icon="telegram" block>{faq.askCta}</Button>
+      </div>
+    </div>
+
+    <div class="faq__list">
+      {
+        items.map((item) => (
+          <details name="faq" class="qa">
+            <summary class="qa__q" set:html={t(item.q)} />
+            <p class="qa__a" set:html={t(item.a)} />
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: clamp(32px, 6vw, 120px);
+    align-items: start;
+  }
+  .faq__lead {
+    max-width: 34ch;
+    margin-top: 20px;
+  }
+  .ask {
+    max-width: 460px;
+    margin-top: 36px;
+    padding: clamp(24px, 2.6vw, 36px);
+    border-radius: var(--radius);
+    background: var(--c-white);
+  }
+  .ask__title {
+    margin-bottom: 26px;
+    font: 600 clamp(1.3rem, 1.05rem + 0.7vw, 1.65rem) / 1.22 var(--ff-display);
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .qa {
+    border-radius: var(--radius);
+    background: var(--c-white);
+  }
+  .qa__q {
+    position: relative;
+    padding: 26px 76px 26px 30px;
+    list-style: none;
+    cursor: pointer;
+    font: 500 clamp(1.05rem, 0.98rem + 0.25vw, 1.2rem) / 1.4 var(--ff-text);
+    border-radius: inherit;
+  }
+  .qa__q::-webkit-details-marker {
+    display: none;
+  }
+  .qa__q::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    width: 22px;
+    height: 22px;
+    margin-top: -11px;
+    background:
+      linear-gradient(var(--c-soft), var(--c-soft)) center / 100% 1.6px no-repeat,
+      linear-gradient(var(--c-soft), var(--c-soft)) center / 1.6px 100% no-repeat;
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .qa[open] .qa__q::after {
+    transform: rotate(45deg);
+  }
+  .qa__q:focus-visible {
+    outline-offset: -2px;
+  }
+  .qa__a {
+    max-width: 64ch;
+    padding: 0 30px 28px;
+    color: #555;
+    line-height: 1.65;
+  }
+
+  /* плавное раскрытие там, где браузер это умеет */
+  @supports (interpolate-size: allow-keywords) {
+    .qa {
+      interpolate-size: allow-keywords;
+    }
+    .qa::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size var(--dur) var(--ease-out),
+        content-visibility var(--dur) allow-discrete;
+    }
+    .qa[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .faq {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .qa__q {
+      padding: 22px 64px 22px 22px;
+    }
+    .qa__q::after {
+      right: 22px;
+    }
+    .qa__a {
+      padding: 0 22px 22px;
+    }
+  }
+</style>

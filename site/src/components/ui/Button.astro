@@ -1,0 +1,131 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  /** Ссылка — тогда рендерится <a>, иначе <button>. */
+  href?: string;
+  type?: 'button' | 'submit';
+  /** dark — на светлом фоне, light — на тёмном, ghost — второстепенная на тёмном. */
+  tone?: 'dark' | 'light' | 'ghost';
+  size?: 'md' | 'lg';
+  icon?: IconName;
+  id?: string;
+  class?: string;
+  /** Растянуть на всю ширину на телефонах. */
+  block?: boolean;
+  hidden?: boolean;
+  /** data-astro-cid-* родителя и прочие data-атрибуты. */
+  [attr: `data-${string}`]: unknown;
+}
+
+const {
+  href,
+  type = 'button',
+  tone = 'dark',
+  size = 'md',
+  icon = 'arrow',
+  id,
+  class: className,
+  block = false,
+  ...rest
+} = Astro.props;
+
+const classes = ['btn', `btn--${tone}`, `btn--${size}`, `btn--icon-${icon}`, block && 'btn--block', className];
+---
+
+{
+  href ? (
+    <a {...rest} href={href} id={id} class:list={classes}>
+      <span class="btn__label">
+        <slot />
+      </span>
+      <Icon name={icon} class="btn__icon" />
+    </a>
+  ) : (
+    <button {...rest} type={type} id={id} class:list={classes}>
+      <span class="btn__label">
+        <slot />
+      </span>
+      <Icon name={icon} class="btn__icon" />
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    --btn-bg: var(--c-ink);
+    --btn-fg: var(--c-white);
+    --btn-bg-hover: #2d2d2d;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 54px;
+    padding: 0 24px 0 28px;
+    border-radius: 999px;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font: 500 0.98rem / 1 var(--ff-display);
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+      background-color var(--dur-fast),
+      transform var(--dur-fast) var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn[hidden] {
+    display: none;
+  }
+  .btn--light {
+    --btn-bg: var(--c-white);
+    --btn-fg: var(--c-ink);
+    --btn-bg-hover: #e8e8e8;
+  }
+  .btn--ghost {
+    --btn-bg: transparent;
+    --btn-fg: var(--c-white);
+    --btn-bg-hover: rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+  }
+  .btn--lg {
+    min-height: 64px;
+    padding: 0 28px 0 32px;
+    font-size: 1.04rem;
+  }
+  .btn__icon {
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn:disabled {
+    cursor: progress;
+  }
+  .btn:global(.is-ok) {
+    --btn-bg: var(--c-success);
+    --btn-bg-hover: var(--c-success);
+  }
+  .btn:global(.is-error) {
+    --btn-bg: var(--c-danger);
+    --btn-bg-hover: var(--c-danger);
+  }
+
+  @media (hover: hover) {
+    .btn:hover {
+      background: var(--btn-bg-hover);
+    }
+    .btn--icon-arrow:hover .btn__icon {
+      transform: rotate(45deg);
+    }
+    .btn--icon-telegram:hover .btn__icon {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .btn--block {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,304 @@
+---
+import { Picture } from 'astro:assets';
+import Button from '@/components/ui/Button.astro';
+import { typo } from '@/lib/typo';
+import { images, PICTURE_FORMATS, WIDTHS_HALF } from '@/lib/images';
+import { servicePath, type Dict } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+const { services, locale } = dict;
+const t = (s: string) => typo(s, locale);
+const total = String(services.items.length).padStart(2, '0');
+---
+
+<section id="services" class="services" aria-labelledby="services-title">
+  <div class="section section--white services__intro">
+    <div class="wrap split">
+      <div>
+        <p class="t-label">{services.label}</p>
+        <h2 id="services-title" class="t-h2" set:html={t(services.title)} />
+      </div>
+      <p class="t-lead" set:html={t(services.lead)} />
+    </div>
+  </div>
+
+  <ol class="stack">
+    {
+      services.items.map((item, i) => (
+        <li class="card">
+          <div class="card__in">
+            <div class="card__media">
+              <Picture
+                src={images[item.id]}
+                formats={[...PICTURE_FORMATS]}
+                widths={[...WIDTHS_HALF]}
+                sizes="(max-width: 900px) 100vw, 50vw"
+                alt={item.alt}
+                loading="lazy"
+                class="card__img"
+              />
+              <h3 class="card__title">
+                <a href={servicePath(locale, item.id)} set:html={t(item.title)} />
+              </h3>
+              <ul class="card__stack" aria-label={services.stackLabel}>
+                {item.stack.map((tech) => (
+                  <li>{tech}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="card__body">
+              <p class="card__count" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')} / {total}
+              </p>
+              <p class="card__desc" set:html={t(item.desc)} />
+              <ul class="card__includes" aria-label={services.includesLabel}>
+                {item.includes.map((line) => (
+                  <li>
+                    <span set:html={t(line)} />
+                  </li>
+                ))}
+              </ul>
+              <div class="card__actions">
+                <Button href="#contact" tone="light" data-brief-service={item.id}>
+                  {services.cta}
+                </Button>
+                <Button href={servicePath(locale, item.id)} tone="ghost">
+                  {services.more}
+                  <span class="sr-only"> — {item.title}</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .services__intro {
+    padding-bottom: clamp(48px, 6vw, 88px);
+  }
+
+  /*
+   * Карточки — «колода»: каждая прилипает к верху экрана, следующая наезжает поверх,
+   * а накрытая уходит в глубину. Чистый CSS, без обработчиков прокрутки.
+   */
+  .card {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: clip;
+    background: #050606;
+  }
+  .card__in {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    overflow: clip;
+    background: var(--c-night);
+    color: var(--c-white);
+    transform-origin: 50% 0;
+  }
+  /* затемнение для эффекта глубины — только opacity, без перерисовки */
+  .card__in::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .card__media {
+    position: relative;
+    overflow: clip;
+    background: var(--c-night-2);
+  }
+  .card__media > :global(picture) {
+    display: contents;
+  }
+  .card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0.42), transparent 34%, transparent 62%, rgb(0 0 0 / 0.32));
+  }
+  .card__title {
+    position: absolute;
+    z-index: 1;
+    inset: clamp(28px, 4vw, 64px) 22px auto clamp(22px, 4vw, 64px);
+    font: 800 var(--fs-display) / 1 var(--ff-display);
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .card__title a {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.12em;
+    transition: text-decoration-color var(--dur);
+  }
+  @media (hover: hover) {
+    .card__title a:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+  .card__stack {
+    position: absolute;
+    z-index: 1;
+    inset: auto 22px clamp(24px, 4vw, 56px) clamp(22px, 4vw, 64px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .card__stack li {
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: var(--c-white);
+    color: var(--c-ink);
+    font: 500 1rem / 1 var(--ff-text);
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(22px, 3.4vh, 40px);
+    padding: clamp(28px, 4vw, 64px);
+  }
+  .card__count {
+    font: 500 1rem / 1 var(--ff-display);
+    color: var(--c-night-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .card__desc {
+    max-width: 25ch;
+    font: 600 clamp(1.4rem, 0.9rem + 1.4vw, 2.15rem) / 1.24 var(--ff-display);
+    letter-spacing: -0.012em;
+  }
+  .card__includes {
+    max-width: 560px;
+    border-top: 1px solid var(--c-night-line);
+  }
+  .card__includes li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-block: clamp(13px, 2vh, 19px);
+    border-bottom: 1px solid var(--c-night-line);
+    font-size: 1.06rem;
+    color: rgb(255 255 255 / 0.86);
+  }
+  .card__includes li::before {
+    content: '';
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border: 1.6px solid currentColor;
+    border-radius: 50%;
+    transform: translateY(-1px);
+  }
+  .card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: auto;
+  }
+
+  /*
+   * Глубина: каждая следующая карточка — именованная view-timeline; пока она въезжает,
+   * предыдущая уменьшается и темнеет. Только там, где браузер умеет scroll-driven animations.
+   */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) and (min-width: 901px) and (min-height: 641px) {
+      .stack {
+        timeline-scope: --card-2, --card-3, --card-4, --card-5, --card-6;
+      }
+      .card:nth-child(2) { view-timeline: --card-2 block; }
+      .card:nth-child(3) { view-timeline: --card-3 block; }
+      .card:nth-child(4) { view-timeline: --card-4 block; }
+      .card:nth-child(5) { view-timeline: --card-5 block; }
+      .card:nth-child(6) { view-timeline: --card-6 block; }
+
+      .card:nth-child(1) { --next: --card-2; }
+      .card:nth-child(2) { --next: --card-3; }
+      .card:nth-child(3) { --next: --card-4; }
+      .card:nth-child(4) { --next: --card-5; }
+      .card:nth-child(5) { --next: --card-6; }
+
+      .card:not(:last-child) .card__in,
+      .card:not(:last-child) .card__in::after {
+        animation-timeline: var(--next);
+        animation-range: entry 0% entry 100%;
+        animation-fill-mode: both;
+        animation-timing-function: linear;
+      }
+      .card:not(:last-child) .card__in {
+        animation-name: recede;
+      }
+      .card:not(:last-child) .card__in::after {
+        animation-name: dim;
+      }
+      @keyframes recede {
+        to {
+          transform: scale(0.9);
+        }
+      }
+      @keyframes dim {
+        to {
+          opacity: 0.55;
+        }
+      }
+    }
+  }
+
+  /* низкие экраны: колода не помещается — обычный поток */
+  @media (max-height: 640px) and (min-width: 901px) {
+    .card {
+      position: relative;
+      height: auto;
+      min-height: 100vh;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .card {
+      position: relative;
+      height: auto;
+    }
+    .card + .card {
+      border-top: 1px solid var(--c-night-line);
+    }
+    .card__in {
+      grid-template-columns: 1fr;
+    }
+    .card__media {
+      aspect-ratio: 4 / 3.6;
+    }
+    .card__actions {
+      margin-top: 8px;
+    }
+  }
+  @media (max-width: 600px) {
+    .card__stack li {
+      padding: 10px 16px;
+      font-size: 0.92rem;
+    }
+  }
+</style>

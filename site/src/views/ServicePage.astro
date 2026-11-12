@@ -1,0 +1,66 @@
+---
+import Base from '@/layouts/Base.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import ServiceHero from '@/components/service/ServiceHero.astro';
+import Deliverables from '@/components/service/Deliverables.astro';
+import PriceBand from '@/components/service/PriceBand.astro';
+import OtherServices from '@/components/service/OtherServices.astro';
+import Process from '@/components/sections/Process.astro';
+import Faq from '@/components/sections/Faq.astro';
+import Contact from '@/components/sections/Contact.astro';
+import { getDict, serviceAlternates, servicePath, type Locale, type ServiceId } from '@/i18n';
+import { ogServiceKey } from '@/lib/og-paths';
+
+interface Props {
+  locale: Locale;
+  id: ServiceId;
+}
+
+const { locale, id } = Astro.props;
+const dict = getDict(locale);
+const service = dict.services.items.find((s) => s.id === id)!;
+const path = servicePath(locale, id);
+const alternates = serviceAlternates(id);
+---
+
+<Base
+  dict={dict}
+  title={service.page.seoTitle}
+  description={service.page.seoDescription}
+  path={path}
+  alternates={alternates}
+  ogKey={ogServiceKey(locale, id)}
+  schema={{
+    service: { name: service.title, description: service.page.seoDescription, path },
+    breadcrumbs: [
+      { name: dict.hero.mark, path: dict.path },
+      { name: dict.servicePage.label, path: `${dict.path}#services` },
+      { name: service.title, path },
+    ],
+    faq: service.page.faq,
+  }}
+>
+  <Header dict={dict} base={dict.path} alternates={alternates} />
+  <main id="main" tabindex="-1">
+    <ServiceHero dict={dict} service={service} />
+    <Deliverables dict={dict} service={service} />
+    <Process dict={dict} />
+    <PriceBand dict={dict} service={id} />
+    <Faq
+      dict={dict}
+      title={dict.servicePage.faqTitle}
+      lead={dict.servicePage.faqLead}
+      items={service.page.faq}
+    />
+    <OtherServices dict={dict} current={id} />
+    <Contact dict={dict} preselect={id} />
+  </main>
+  <Footer dict={dict} base={dict.path} />
+</Base>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>

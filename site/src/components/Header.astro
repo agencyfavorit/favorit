@@ -1,0 +1,286 @@
+---
+import Logo from './ui/Logo.astro';
+import { homeAlternates, locales, type Alternates, type Dict } from '@/i18n';
+import { CONTACTS } from '@/config/site';
+
+interface Props {
+  dict: Dict;
+  /** Префикс для якорей разделов: на внутренних страницах ссылки ведут на главную. */
+  base?: string;
+  /** Куда ведёт переключатель языка — та же страница на другом языке. */
+  alternates?: Alternates;
+}
+
+const { dict, base = '', alternates = homeAlternates } = Astro.props;
+const { a11y } = dict;
+const nav = dict.nav.map((link) => ({ ...link, href: `${base}${link.href}` }));
+---
+
+<header class="nav" data-nav>
+  <div class="wrap nav__inner">
+    <a href={dict.path} class="nav__logo" aria-label={a11y.home}><Logo /></a>
+
+    <nav class="nav__links" aria-label={a11y.mainNav}>
+      <ul>
+        {
+          nav.map((link) => (
+            <li>
+              <a href={link.href}>
+                {link.label}
+                {link.count && <sup aria-hidden="true">[{link.count}]</sup>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <ul class="nav__lang" aria-label={a11y.language}>
+      {
+        locales.map((locale) => (
+          <li>
+            <a
+              href={alternates[locale]}
+              lang={locale}
+              hreflang={locale}
+              aria-current={locale === dict.locale ? 'page' : undefined}
+            >
+              {locale.toUpperCase()}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <button
+      class="nav__burger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu"
+      aria-label={a11y.openMenu}
+      data-burger
+      data-label-open={a11y.openMenu}
+      data-label-close={a11y.closeMenu}
+    >
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div id="menu" class="menu" data-menu inert>
+  <nav aria-label={a11y.menu}>
+    <ul class="menu__links">
+      {
+        nav.map((link) => (
+          <li>
+            <a href={link.href}>
+              {link.label}
+              {link.count && <sup aria-hidden="true">[{link.count}]</sup>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="menu__foot">
+    <a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a>
+    <a href={CONTACTS.telegramUrl}>Telegram ↗</a>
+  </div>
+</div>
+
+<script>
+  import { initHeader } from '@/scripts/header';
+  initHeader();
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    background: var(--c-white);
+    border-bottom: 1px solid var(--c-line);
+    transition:
+      transform 0.45s var(--ease-out),
+      background-color var(--dur),
+      border-color var(--dur),
+      color var(--dur);
+  }
+  .nav:global(.is-hidden) {
+    transform: translateY(-100%);
+  }
+  .nav:global(.is-dark) {
+    background: var(--c-night);
+    border-color: var(--c-night-line);
+    color: var(--c-white);
+  }
+  .nav__inner {
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .nav__logo {
+    flex: none;
+    border-radius: 50%;
+  }
+
+  .nav__links {
+    flex: 1;
+  }
+  .nav__links ul {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  .nav__links a,
+  .nav__lang {
+    font: 500 1.08rem / 1 var(--ff-display);
+    text-transform: uppercase;
+  }
+  .nav__links a {
+    position: relative;
+    display: inline-block;
+    padding-block: 8px;
+  }
+  .nav__links a::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 2px;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease-out);
+  }
+  @media (hover: hover) {
+    .nav__links a:hover::after {
+      transform: scaleX(1);
+    }
+  }
+  sup {
+    font-size: 0.66em;
+    color: var(--c-quiet);
+    vertical-align: baseline;
+    position: relative;
+    top: -0.12em;
+    margin-inline-start: 0.14em;
+  }
+
+  .nav__lang {
+    display: flex;
+    flex: none;
+  }
+  .nav__lang li + li::before {
+    content: '/';
+    margin-inline: 6px;
+    color: var(--c-soft);
+  }
+  .nav__lang a {
+    color: var(--c-quiet);
+    transition: color var(--dur-fast);
+  }
+  .nav__lang a[aria-current='page'],
+  .nav__lang a:hover {
+    color: inherit;
+  }
+  .nav:global(.is-dark) .nav__lang a:not([aria-current]) {
+    color: var(--c-night-muted);
+  }
+
+  .nav__burger {
+    display: none;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    margin-inline-end: -10px;
+    flex: none;
+  }
+  .nav__burger span {
+    position: absolute;
+    inset-inline: 10px;
+    height: 2px;
+    background: currentColor;
+    transition:
+      transform var(--dur) var(--ease-out),
+      top var(--dur) var(--ease-out);
+  }
+  .nav__burger span:first-child {
+    top: 17px;
+  }
+  .nav__burger span:last-child {
+    top: 25px;
+  }
+  .nav__burger[aria-expanded='true'] span {
+    top: 21px;
+  }
+  .nav__burger[aria-expanded='true'] span:first-child {
+    transform: rotate(45deg);
+  }
+  .nav__burger[aria-expanded='true'] span:last-child {
+    transform: rotate(-45deg);
+  }
+
+  /* мобильное меню */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: calc(var(--nav-h) + 28px) var(--gutter) max(28px, env(safe-area-inset-bottom));
+    background: var(--c-night);
+    color: var(--c-white);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition:
+      transform 0.5s var(--ease-out),
+      visibility 0s linear 0.5s;
+  }
+  .menu:global(.is-open) {
+    transform: none;
+    visibility: visible;
+    transition:
+      transform 0.5s var(--ease-out),
+      visibility 0s;
+  }
+  .menu__links a {
+    display: block;
+    font: 800 clamp(2.1rem, 10.5vw, 3.6rem) / 1.12 var(--ff-display);
+    text-transform: uppercase;
+  }
+  .menu__links sup {
+    color: var(--c-night-muted);
+  }
+  .menu__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--c-night-muted);
+  }
+
+  @media (max-width: 1240px) {
+    .nav__links a,
+    .nav__lang {
+      font-size: 0.98rem;
+    }
+  }
+  @media (max-width: 1040px) {
+    .nav__links {
+      display: none;
+    }
+    .nav__lang {
+      margin-inline-start: auto;
+    }
+    .nav__burger {
+      display: block;
+    }
+  }
+  @media (min-width: 1041px) {
+    .menu {
+      display: none;
+    }
+  }
+</style>

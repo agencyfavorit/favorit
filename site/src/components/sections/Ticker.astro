@@ -1,0 +1,77 @@
+---
+import type { Dict } from '@/i18n';
+
+/** Бегущая строка из названий направлений. Декоративная: для скринридеров скрыта. */
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+const words = dict.services.items.map((item) => item.short);
+// две одинаковые половины — сдвиг на −50% даёт бесшовный цикл
+const loop = [...words, ...words];
+---
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    {
+      loop.map((word) => (
+        <span class="ticker__item">
+          {word}
+          <i class="ticker__dot" />
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .ticker {
+    position: relative;
+    z-index: 2;
+    overflow: clip;
+    padding-block: 20px;
+    background: var(--c-ink);
+    color: var(--c-white);
+  }
+  .ticker__track {
+    display: flex;
+    width: max-content;
+    animation: ticker 48s linear infinite;
+  }
+  .ticker__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 30px;
+    padding-inline-end: 30px;
+    font: 600 1.15rem / 1 var(--ff-display);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .ticker__dot {
+    width: 11px;
+    height: 11px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+  }
+  @keyframes ticker {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (hover: hover) {
+    .ticker:hover .ticker__track {
+      animation-play-state: paused;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker__track {
+      animation: none;
+    }
+  }
+  @media (max-width: 600px) {
+    .ticker__item {
+      font-size: 1rem;
+    }
+  }
+</style>

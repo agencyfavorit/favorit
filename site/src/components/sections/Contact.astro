@@ -1,0 +1,483 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { typo } from '@/lib/typo';
+import { CONTACTS } from '@/config/site';
+import type { Dict, ServiceId } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+  /** На странице услуги она уже отмечена в первом вопросе брифа. */
+  preselect?: ServiceId;
+}
+
+const { dict, preselect } = Astro.props;
+const { contact, locale } = dict;
+const { form, brief } = contact;
+const t = (s: string) => typo(s, locale);
+const privacyHref = '/privacy/';
+const totalSteps = brief.questions.length + 1;
+---
+
+<section id="contact" class="section section--white" aria-labelledby="contact-title">
+  <div class="wrap contact">
+    <div>
+      <p class="t-label">{contact.label}</p>
+      <h2 id="contact-title" class="t-h2" set:html={t(contact.title)} />
+      <p class="t-lead contact__lead" set:html={t(contact.lead)} />
+      <dl class="rows">
+        {
+          contact.rows.map((row) => (
+            <div class="row">
+              <dt>{row.label}</dt>
+              <dd>{row.href ? <a href={row.href}>{row.value}</a> : row.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <form
+      class="brief"
+      method="POST"
+      action={CONTACTS.formAction}
+      data-contact-form
+      data-endpoint={CONTACTS.formEndpoint}
+      data-sending={form.sending}
+      data-sent={form.sent}
+      data-error={form.error}
+      data-step-label={brief.step}
+      data-of-label={brief.of}
+    >
+      <input type="hidden" name="_subject" value={form.subject} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <div class="brief__trap" aria-hidden="true">
+        <label>{form.honeypot} <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <div class="brief__progress">
+        <p class="brief__counter" aria-live="polite" data-brief-progress>{`${brief.step} 1 ${brief.of} ${totalSteps}`}</p>
+        <span class="brief__bar" aria-hidden="true"></span>
+      </div>
+
+      {
+        brief.questions.map((question) => (
+          <fieldset class="brief__step" data-brief-step>
+            <legend class="brief__legend" tabindex="-1">
+              {question.legend}
+            </legend>
+            {question.hint && <p class="brief__hint">{question.hint}</p>}
+            <div class:list={['brief__options', question.options.length > 4 && 'brief__options--wide']}>
+              {question.options.map((option) => (
+                <label class="opt">
+                  <input
+                    type={question.multiple ? 'checkbox' : 'radio'}
+                    name={question.field}
+                    value={option.label}
+                    data-id={option.id}
+                    required={!question.multiple}
+                    checked={question.multiple && option.id === preselect}
+                  />
+                  <span class:list={['opt__mark', question.multiple ? 'opt__mark--check' : 'opt__mark--radio']} />
+                  <span class="opt__label">{option.label}</span>
+                </label>
+              ))}
+            </div>
+            <p class="brief__error" role="alert" data-brief-error hidden>
+              {brief.required}
+            </p>
+          </fieldset>
+        ))
+      }
+
+      <fieldset class="brief__step" data-brief-step>
+        <legend class="brief__legend" tabindex="-1">{brief.contactsLegend}</legend>
+        <div class="brief__fields">
+          <label class="field">
+            <span class="field__label">{form.name}</span>
+            <input
+              type="text"
+              name={form.name}
+              placeholder={form.namePlaceholder}
+              autocomplete="name"
+              required
+              maxlength="200"
+            />
+          </label>
+          <label class="field">
+            <span class="field__label">{form.email}</span>
+            <input
+              type="email"
+              name="email"
+              placeholder={form.emailPlaceholder}
+              autocomplete="email"
+              inputmode="email"
+              spellcheck="false"
+              required
+              maxlength="200"
+            />
+          </label>
+          <label class="field">
+            <span class="field__label">{form.message}</span>
+            <textarea name={form.message} rows="3" placeholder={form.messagePlaceholder} maxlength="5000"></textarea>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="brief__foot">
+        <p class="brief__note">
+          {form.consentBefore}<a href={privacyHref}>{form.consentLink}</a>{form.consentAfter}
+        </p>
+        <div class="brief__nav">
+          <button type="button" class="brief__back" data-brief-back hidden>← {brief.back}</button>
+          <Button type="button" size="lg" data-brief-next hidden>{brief.next}</Button>
+          <Button type="submit" size="lg" block>{form.submit}</Button>
+        </div>
+      </div>
+      <p class="sr-only" role="status" aria-live="polite" data-form-status></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { initBrief } from '@/scripts/brief';
+  import { initContactForm } from '@/scripts/contact-form';
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const brief = initBrief(form);
+    initContactForm(form, { onSent: () => brief?.reset() });
+  });
+</script>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(32px, 6vw, 120px);
+    align-items: start;
+  }
+  .contact__lead {
+    margin-top: 22px;
+  }
+  .rows {
+    max-width: 560px;
+    margin-top: 40px;
+    border-top: 1px solid var(--c-line);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    padding-block: 18px;
+    border-bottom: 1px solid var(--c-line);
+    font-size: 1.05rem;
+  }
+  .row dt {
+    color: var(--c-muted);
+  }
+  .row a {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--dur-fast);
+  }
+  .row a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* ── бриф ─────────────────────────────────────────────── */
+  .brief {
+    --brief-progress: 0.2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    scroll-margin-top: 24px;
+  }
+  .brief__trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .brief__progress {
+    display: none;
+  }
+  .brief:global(.is-stepped) .brief__progress {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .brief__counter {
+    font: 500 0.95rem / 1 var(--ff-display);
+    text-transform: uppercase;
+    color: var(--c-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .brief__bar {
+    position: relative;
+    height: 2px;
+    background: var(--c-line);
+    overflow: clip;
+  }
+  .brief__bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--c-ink);
+    transform: scaleX(var(--brief-progress));
+    transform-origin: left;
+    transition: transform 0.45s var(--ease-out);
+  }
+
+  .brief__step {
+    min-width: 0;
+    border: 0;
+  }
+  .brief__step + .brief__step {
+    margin-top: 12px;
+  }
+  .brief:global(.is-stepped) .brief__step + .brief__step {
+    margin-top: 0;
+  }
+  .brief__step:not([hidden]) {
+    animation: step-in var(--dur) var(--ease-out);
+  }
+  @keyframes step-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  .brief__legend {
+    margin-bottom: 18px;
+    font: 700 var(--fs-h3) / 1.2 var(--ff-display);
+    letter-spacing: -0.01em;
+  }
+  .brief__legend:focus {
+    outline: none;
+  }
+  .brief__legend:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+  .brief__hint {
+    margin: -8px 0 18px;
+    color: var(--c-muted);
+  }
+
+  .brief__options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .opt {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 64px;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    background: var(--c-paper);
+    cursor: pointer;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    transition:
+      box-shadow var(--dur-fast),
+      background-color var(--dur-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .opt input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .opt:has(input:checked) {
+    background: var(--c-white);
+    box-shadow: inset 0 0 0 1.5px var(--c-ink);
+  }
+  .opt:has(input:focus-visible) {
+    outline: 2px solid var(--c-ink);
+    outline-offset: 3px;
+  }
+  @media (hover: hover) {
+    .opt:hover:not(:has(input:checked)) {
+      background: #e9e9e9;
+    }
+  }
+  .opt__mark {
+    position: relative;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border: 1.6px solid var(--c-soft);
+    transition:
+      border-color var(--dur-fast),
+      background-color var(--dur-fast);
+  }
+  .opt__mark--radio {
+    border-radius: 50%;
+  }
+  .opt__mark--check {
+    border-radius: 6px;
+  }
+  .opt:has(input:checked) .opt__mark {
+    border-color: var(--c-ink);
+    background: var(--c-ink);
+  }
+  .opt__mark--radio::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--c-white);
+    transform: scale(0);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .opt:has(input:checked) .opt__mark--radio::after {
+    transform: scale(1);
+  }
+  .opt__mark--check::after {
+    content: '';
+    position: absolute;
+    left: 5.5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--c-white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .opt:has(input:checked) .opt__mark--check::after {
+    transform: rotate(45deg) scale(1);
+  }
+
+  .brief__error {
+    margin-top: 12px;
+    color: var(--c-danger);
+    font-size: 0.95rem;
+  }
+
+  .brief__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .field {
+    display: block;
+    padding: 16px 22px 14px;
+    border-radius: var(--radius);
+    background: var(--c-paper);
+    cursor: text;
+    transition: box-shadow var(--dur-fast);
+  }
+  .field:focus-within {
+    box-shadow: inset 0 0 0 1.5px var(--c-ink);
+  }
+  .field__label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.86rem;
+    color: var(--c-muted);
+  }
+  .field input,
+  .field textarea {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: none;
+    font: 400 1.1rem / 1.45 var(--ff-text);
+    color: var(--c-ink);
+    resize: vertical;
+  }
+  .field textarea {
+    field-sizing: content;
+    min-height: calc(3lh);
+    max-height: 16lh;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: #9a9a9a;
+  }
+  .field:has(:user-invalid) {
+    box-shadow: inset 0 0 0 1.5px var(--c-danger);
+  }
+
+  .brief__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .brief__note {
+    max-width: 34ch;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--c-muted);
+  }
+  /* согласие нужно рядом с кнопкой отправки — на промежуточных шагах место держим, текст прячем */
+  .brief:global(.is-stepped):not(:global(.is-last)) .brief__note {
+    visibility: hidden;
+  }
+  .brief__note a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .brief__note a:hover {
+    color: var(--c-ink);
+  }
+  .brief__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    margin-inline-start: auto;
+  }
+  .brief__back {
+    padding: 12px 4px;
+    font: 500 0.98rem / 1 var(--ff-display);
+    text-transform: uppercase;
+    color: var(--c-muted);
+    transition: color var(--dur-fast);
+  }
+  .brief__back:hover {
+    color: var(--c-ink);
+  }
+  .brief__nav [hidden] {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .row {
+      grid-template-columns: 92px 1fr;
+    }
+    .brief__options {
+      grid-template-columns: 1fr;
+    }
+    .opt {
+      min-height: 56px;
+    }
+    .brief__nav {
+      width: 100%;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+    .brief__nav :global(.btn) {
+      flex: 1;
+    }
+    .brief:global(.is-stepped):not(:global(.is-last)) .brief__note {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import Icon from './ui/Icon.astro';
+import Wordmark from './ui/Wordmark.astro';
+import { CONTACTS } from '@/config/site';
+import { servicePath, type Dict } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+  /** На внутренних страницах якоря разделов ведут на главную. */
+  base?: string;
+}
+
+const { dict, base = '' } = Astro.props;
+const { footer, nav, services, a11y, locale } = dict;
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+      <nav class="foot__cols" aria-label={a11y.sitemap}>
+        <ul>
+          {
+            nav.map((link) => (
+              <li>
+                <a href={`${base}${link.href}`}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+        <ul>
+          {
+            services.items.map((item) => (
+              <li>
+                <a href={servicePath(locale, item.id)}>{item.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <a class="foot__talk" href={CONTACTS.telegramUrl}>
+        {footer.talk}
+        <span class="foot__talk-icon"><Icon name="telegram" /></span>
+      </a>
+    </div>
+
+    <div class="foot__mid">
+      <address class="foot__contacts">
+        <a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a>
+        <a href={CONTACTS.telegramUrl}>{CONTACTS.telegramUrl.replace('https://', '')}</a>
+      </address>
+      <p class="foot__reqs">
+        {footer.requisites[0]}<br />{footer.requisites[1]}
+      </p>
+    </div>
+
+    <div class="foot__bottom">
+      <p>{footer.rights}</p>
+      <ul class="foot__legal">
+        <li><a href="/privacy/">{footer.privacy}</a></li>
+        <li><a href="/offer/">{footer.offer}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot__mark">
+    <Wordmark word={dict.hero.mark} locale={locale} crop={0.8} />
+  </div>
+</footer>
+
+<style>
+  .foot {
+    overflow: clip;
+    padding-top: clamp(64px, 8vw, 128px);
+    background: var(--c-night);
+    color: var(--c-white);
+  }
+  .foot__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: clamp(48px, 6vw, 88px);
+    border-bottom: 1px solid var(--c-night-line);
+  }
+  .foot__cols {
+    display: flex;
+    gap: clamp(40px, 8vw, 150px);
+  }
+  .foot__cols ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .foot__cols a {
+    font-size: 1.12rem;
+    color: rgb(255 255 255 / 0.82);
+    transition: color var(--dur-fast);
+  }
+  .foot__cols a:hover {
+    color: var(--c-white);
+  }
+
+  .foot__talk {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32em;
+    font: 800 clamp(2rem, 1rem + 3.4vw, 4.4rem) / 1 var(--ff-display);
+    text-transform: uppercase;
+  }
+  .foot__talk-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 50%;
+    background: var(--c-white);
+    color: var(--c-ink);
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .foot__talk-icon :global(.icon) {
+    width: 0.56em;
+    height: 0.56em;
+  }
+  @media (hover: hover) {
+    .foot__talk:hover .foot__talk-icon {
+      transform: rotate(-12deg) scale(1.05);
+    }
+  }
+
+  .foot__mid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    padding-block: clamp(40px, 5vw, 72px);
+  }
+  .foot__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-style: normal;
+  }
+  .foot__contacts a {
+    font: 600 clamp(1.35rem, 0.9rem + 1.6vw, 2.3rem) / 1.15 var(--ff-display);
+    color: rgb(255 255 255 / 0.72);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 7px;
+    transition: color var(--dur-fast);
+  }
+  .foot__contacts a:hover {
+    color: var(--c-white);
+  }
+  .foot__reqs {
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--c-night-muted);
+    text-align: end;
+  }
+
+  .foot__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: clamp(28px, 3vw, 44px);
+    font-size: 0.88rem;
+    color: var(--c-night-muted);
+  }
+  .foot__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .foot__legal a:hover {
+    color: var(--c-white);
+  }
+
+  .foot__mark {
+    max-width: var(--max-w);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    color: #ececec;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .foot__reqs {
+      text-align: start;
+    }
+  }
+  @media (max-width: 600px) {
+    .foot__cols {
+      flex-direction: column;
+      gap: 28px;
+    }
+  }
+</style>

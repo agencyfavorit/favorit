@@ -1,0 +1,11 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ServicePage from '@/views/ServicePage.astro';
+import { serviceIds, type ServiceId } from '@/i18n';
+
+export const getStaticPaths = (() => serviceIds.map((service) => ({ params: { service } }))) satisfies GetStaticPaths;
+
+const service = Astro.params.service as ServiceId;
+---
+
+<ServicePage locale="en" id={service} />

@@ -1,0 +1,207 @@
+---
+import { Picture } from 'astro:assets';
+import Ghost from '@/components/ui/Ghost.astro';
+import { typo } from '@/lib/typo';
+import { images, PICTURE_FORMATS, WIDTHS_HALF } from '@/lib/images';
+import type { Dict } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+const { approach, locale } = dict;
+const t = (s: string) => typo(s, locale);
+---
+
+<section id="approach" class="section section--white" aria-labelledby="approach-title">
+  <Ghost word={approach.ghost} locale={locale} on="white" />
+
+  <div class="wrap split">
+    <h2 id="approach-title" class="t-h2" set:html={t(approach.title)} />
+    <p class="t-lead" set:html={t(approach.lead)} />
+  </div>
+
+  <div class="principles" data-tabs>
+    <div class="principles__tabs" role="tablist" aria-label={approach.tabsLabel} aria-orientation="vertical">
+      {
+        approach.items.map((item, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`principle-tab-${i}`}
+            aria-controls={`principle-${i}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+          >
+            {item.tab}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="principles__media">
+      <Picture
+        src={images.approach}
+        formats={[...PICTURE_FORMATS]}
+        widths={[...WIDTHS_HALF]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        alt={approach.alt}
+        loading="lazy"
+        class="principles__img"
+      />
+      <div class="principles__panels">
+        {
+          approach.items.map((item, i) => (
+            <div class="panel" role="tabpanel" id={`principle-${i}`} aria-labelledby={`principle-tab-${i}`} tabindex="0">
+              <h3 class="panel__title" set:html={t(item.title)} />
+              <p class="panel__text" set:html={t(item.text)} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initTabs } from '@/scripts/tabs';
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach(initTabs);
+</script>
+
+<style>
+  .principles {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: min(720px, 86vh);
+    margin-top: clamp(56px, 7vw, 104px);
+    border-top: 1px solid var(--c-line);
+  }
+
+  .principles__tabs {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 48px var(--gutter);
+  }
+  .principles:global(.is-enhanced) .principles__tabs {
+    display: flex;
+  }
+  .principles__tabs button {
+    padding: 10px 4px;
+    font: 800 clamp(1.6rem, 1rem + 1.9vw, 2.75rem) / 1.12 var(--ff-display);
+    text-transform: uppercase;
+    color: #949494; /* AA для крупного текста */
+    transition: color var(--dur-fast);
+  }
+  .principles__tabs button[aria-selected='true'] {
+    color: var(--c-ink);
+  }
+  @media (hover: hover) {
+    .principles__tabs button:hover:not([aria-selected='true']) {
+      color: #6a6a6a;
+    }
+  }
+
+  .principles__media {
+    position: relative;
+    overflow: clip;
+    background: #0d2a8a;
+    grid-column: 2;
+  }
+  .principles__media > :global(picture) {
+    display: contents;
+  }
+  .principles__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .principles__panels {
+    position: absolute;
+    z-index: 1;
+    inset: auto clamp(20px, 3vw, 44px) clamp(20px, 3vw, 44px);
+    max-width: 500px;
+    padding: clamp(22px, 2.4vw, 32px);
+    border-radius: var(--radius);
+    background: var(--c-white);
+  }
+  .panel + .panel {
+    margin-top: 22px;
+  }
+  .principles:global(.is-enhanced) .panel + .panel {
+    margin-top: 0;
+  }
+  .panel:not([hidden]) {
+    animation: panel-in var(--dur) var(--ease-out);
+  }
+  .panel:focus-visible {
+    outline-offset: 8px;
+  }
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  .panel__title {
+    margin-bottom: 10px;
+    font: 700 1.35rem / 1.2 var(--ff-display);
+  }
+  .panel__text {
+    color: var(--c-ink-2);
+    line-height: 1.6;
+  }
+
+  /* без JS панели — обычный список в карточке, вкладки скрыты */
+  .principles:not(:global(.is-enhanced)) .principles__media {
+    grid-column: 1 / -1;
+    min-height: 720px;
+  }
+
+  @media (max-width: 900px) {
+    .principles {
+      grid-template-columns: 1fr;
+      min-height: 0;
+      border-top: 0;
+    }
+    .principles:global(.is-enhanced) .principles__tabs {
+      display: none;
+    }
+    .principles__media,
+    .principles:not(:global(.is-enhanced)) .principles__media {
+      grid-column: auto;
+      min-height: 0;
+      overflow: visible;
+      background: none;
+    }
+    .principles__img {
+      position: relative;
+      height: auto;
+      aspect-ratio: 1;
+    }
+    .principles__panels {
+      position: static;
+      max-width: none;
+      padding: 8px var(--gutter) 0;
+      border-radius: 0;
+      background: none;
+    }
+    .panel,
+    .panel[hidden] {
+      display: block;
+      padding-block: 22px;
+      border-bottom: 1px solid var(--c-line);
+      animation: none;
+    }
+    .panel:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

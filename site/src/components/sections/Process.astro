@@ -1,0 +1,141 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { typo } from '@/lib/typo';
+import type { Dict } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+const { process, locale } = dict;
+const t = (s: string) => typo(s, locale);
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section id="process" class="section section--paper" aria-labelledby="process-title">
+  <div class="wrap">
+    <div class="process__head">
+      <h2 id="process-title" class="t-h2" set:html={t(process.title)} />
+      <Button href="#contact">{process.cta}</Button>
+    </div>
+
+    <div class="ruler" aria-hidden="true">
+      {process.steps.map((_, i) => <span>{`${process.stage} ${pad(i + 1)}`}</span>)}
+    </div>
+
+    <ol class="steps">
+      {
+        process.steps.map((step, i) => (
+          <li class="step">
+            <span class="step__stage">{`${process.stage} ${pad(i + 1)}`}</span>
+            <h3 class="step__title">{step.title}</h3>
+            <p class="step__text" set:html={t(step.text)} />
+            <p class="step__out">
+              <b>{process.outcome}</b> <span set:html={t(step.out)} />
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+
+  /* шкала-линейка: мелкие деления фоном, крупные — у каждого этапа */
+  .ruler {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: clamp(48px, 6vw, 88px);
+    background: repeating-linear-gradient(90deg, #c4c4c4 0 1px, transparent 1px 22px) 0 12px / 100% 32px no-repeat;
+  }
+  .ruler span {
+    position: relative;
+    padding-top: 70px;
+    text-align: center;
+    font: 700 1.02rem / 1 var(--ff-display);
+    color: var(--c-quiet);
+  }
+  .ruler span::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 56px;
+    background: var(--c-ink);
+    transform: translateX(-50%);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 340px;
+    padding: clamp(24px, 2.4vw, 36px);
+    border-radius: var(--radius-s);
+    background: var(--c-white);
+  }
+  .step__stage {
+    display: none;
+    font: 700 0.95rem / 1 var(--ff-display);
+    color: var(--c-quiet);
+  }
+  .step__title {
+    margin-bottom: 6px;
+    font: 600 var(--fs-h3) / 1.15 var(--ff-display);
+    letter-spacing: -0.01em;
+  }
+  .step__text {
+    color: var(--c-muted);
+    line-height: 1.6;
+  }
+  .step__out {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--c-line);
+    color: var(--c-ink-2);
+    font-size: 0.96rem;
+  }
+  .step__out b {
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+
+  @media (max-width: 1240px) {
+    .ruler {
+      display: none;
+    }
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .step {
+      min-height: 280px;
+    }
+    .step__stage {
+      display: block;
+    }
+  }
+  @media (max-width: 600px) {
+    .steps {
+      grid-template-columns: 1fr;
+    }
+    .step {
+      min-height: 0;
+    }
+  }
+</style>

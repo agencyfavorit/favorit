@@ -1,4 +1,51 @@
-# Netlify: публиковать новый сайт (v3) как корень favorit.agency.
-# v1/v2 остаются в репозитории, но не обслуживаются.
+# Netlify: favorit.agency собирается из Astro-проекта в site/.
+# v1–v3 остаются в репозитории как архив и не обслуживаются.
 [build]
-  publish = "v3"
+  base = "site"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+  ASTRO_TELEMETRY_DISABLED = "1"
+
+# ── Старые адреса (v3) → новые ──────────────────────────────
+[[redirects]]
+  from = "/index-en.html"
+  to = "/en/"
+  status = 301
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/privacy/"
+  status = 301
+
+[[redirects]]
+  from = "/offer.html"
+  to = "/offer/"
+  status = 301
+
+# ── Заголовки безопасности для всех ответов ─────────────────
+# CSP со скриптами и стилями по хэшам Astro кладёт в <meta> каждой страницы;
+# здесь — то, что в <meta> задать нельзя.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'none'; upgrade-insecure-requests"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+
+# ── Кэш: файлы с хэшем в имени не меняются никогда ──────────
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"

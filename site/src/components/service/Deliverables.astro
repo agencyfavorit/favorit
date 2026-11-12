@@ -1,0 +1,82 @@
+---
+import { typo } from '@/lib/typo';
+import type { Dict, Service } from '@/i18n';
+
+interface Props {
+  dict: Dict;
+  service: Service;
+}
+
+const { dict, service } = Astro.props;
+const t = (s: string) => typo(s, dict.locale);
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="section section--paper" aria-labelledby="deliverables-title">
+  <div class="wrap">
+    <h2 id="deliverables-title" class="t-h2" set:html={t(dict.servicePage.deliverablesTitle)} />
+    <ol class="grid">
+      {
+        service.page.deliverables.map((item, i) => (
+          <li class="item">
+            <span class="item__n" aria-hidden="true">
+              {pad(i + 1)}
+            </span>
+            <h3 class="item__title" set:html={t(item.title)} />
+            <p class="item__text" set:html={t(item.text)} />
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: clamp(40px, 5vw, 72px);
+  }
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 260px;
+    padding: clamp(24px, 2.4vw, 36px);
+    border-radius: var(--radius-s);
+    background: var(--c-white);
+  }
+  .item__n {
+    margin-bottom: auto;
+    padding-bottom: 28px;
+    font: 700 1rem / 1 var(--ff-display);
+    color: var(--c-quiet);
+    font-variant-numeric: tabular-nums;
+  }
+  .item__title {
+    font: 600 var(--fs-h3) / 1.15 var(--ff-display);
+    letter-spacing: -0.01em;
+  }
+  .item__text {
+    color: var(--c-muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .item {
+      min-height: 0;
+    }
+    .item__n {
+      padding-bottom: 12px;
+    }
+  }
+</style>
